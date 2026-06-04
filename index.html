@@ -1,0 +1,3774 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智慧停车收费系统用户手册</title>
+  <style>
+:root {
+  --bg: #f6f7f1;
+  --paper: #ffffff;
+  --paper-soft: #fbfcf7;
+  --ink: #14201f;
+  --muted: #697674;
+  --line: #d9dfd2;
+  --line-strong: #b9c3b8;
+  --teal: #007f73;
+  --teal-dark: #005f57;
+  --gold: #b58a2b;
+  --blue: #315f80;
+  --danger: #a33a2d;
+  --shadow: 0 18px 45px rgba(34, 47, 42, 0.10);
+  --radius: 8px;
+  --topbar-height: 76px;
+}
+
+* {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(20, 32, 31, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(20, 32, 31, 0.035) 1px, transparent 1px),
+    var(--bg);
+  background-size: 34px 34px;
+  font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+body.is-lightbox-open {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  background: var(--teal);
+  transition: width 120ms ease;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  min-height: var(--topbar-height);
+  padding: 14px 28px;
+  display: grid;
+  grid-template-columns: minmax(230px, 360px) minmax(280px, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  border-bottom: 1px solid rgba(185, 195, 184, 0.72);
+  background: rgba(246, 247, 241, 0.92);
+  backdrop-filter: blur(16px);
+}
+
+.brand {
+  text-decoration: none;
+}
+
+.brand-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.brand-version {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.3;
+  margin-top: 4px;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 16px 0 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.86);
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.search-box input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0, 127, 115, 0.14);
+}
+
+.search-box::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--teal-dark);
+  border-radius: 50%;
+  transform: translateY(-56%);
+}
+
+.search-box::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: 29px;
+  width: 9px;
+  height: 2px;
+  background: var(--teal-dark);
+  transform: rotate(45deg);
+  transform-origin: left center;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.action-button,
+.chip {
+  min-height: 36px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.action-button {
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+.action-button:hover,
+.chip:hover {
+  border-color: var(--teal);
+  color: var(--teal-dark);
+  background: #ffffff;
+}
+
+.layout {
+  width: min(1760px, 100%);
+  margin: 0 auto;
+  padding: 24px 28px 60px;
+  display: grid;
+  grid-template-columns: 288px minmax(0, 1fr);
+  gap: 24px;
+}
+
+.sidebar {
+  position: sticky;
+  top: calc(var(--topbar-height) + 24px);
+  align-self: start;
+  max-height: calc(100vh - var(--topbar-height) - 48px);
+  overflow: auto;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 12px 30px rgba(34, 47, 42, 0.06);
+}
+
+.side-label {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.toc {
+  display: grid;
+  gap: 2px;
+}
+
+.toc-link {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--muted);
+  text-decoration: none;
+  line-height: 1.35;
+  border-left: 3px solid transparent;
+}
+
+.toc-level-2 {
+  margin-top: 4px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.toc-level-3 {
+  padding-left: 22px;
+  font-size: 13px;
+}
+
+.toc-link:hover,
+.toc-link.active {
+  color: var(--teal-dark);
+  background: rgba(0, 127, 115, 0.08);
+  border-left-color: var(--teal);
+}
+
+.content {
+  min-width: 0;
+}
+
+.overview {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--teal-dark);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.overview h1 {
+  margin: 0;
+  font-size: clamp(30px, 4.2vw, 54px);
+  line-height: 1.08;
+  font-weight: 780;
+}
+
+.intro {
+  max-width: 980px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.stat-grid {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--paper-soft);
+}
+
+.stat {
+  min-height: 78px;
+  padding: 14px 16px;
+  border-right: 1px solid var(--line);
+}
+
+.stat:last-child {
+  border-right: none;
+}
+
+.stat strong {
+  display: block;
+  font-size: 23px;
+  line-height: 1.1;
+}
+
+.stat span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.chip-row {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 6px 11px;
+  color: var(--teal-dark);
+  background: rgba(0, 127, 115, 0.06);
+}
+
+.search-results {
+  margin-top: 18px;
+  display: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  overflow: hidden;
+}
+
+.search-results.visible {
+  display: block;
+}
+
+.result-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  padding: 12px 14px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.result-link:last-child {
+  border-bottom: none;
+}
+
+.result-link:hover {
+  color: var(--teal-dark);
+  background: rgba(0, 127, 115, 0.06);
+}
+
+.result-meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.empty-state {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid rgba(163, 58, 45, 0.24);
+  border-radius: var(--radius);
+  color: var(--danger);
+  background: rgba(163, 58, 45, 0.055);
+}
+
+.manual-content {
+  margin-top: 24px;
+  display: grid;
+  gap: 18px;
+}
+
+.chapter {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 12px 34px rgba(34, 47, 42, 0.07);
+}
+
+.chapter[hidden] {
+  display: none;
+}
+
+.manual-content h2,
+.manual-content h3,
+.manual-content h4 {
+  scroll-margin-top: calc(var(--topbar-height) + 24px);
+}
+
+.manual-content h2 {
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 28px;
+  line-height: 1.25;
+}
+
+.manual-content h3 {
+  margin: 30px 0 12px;
+  font-size: 21px;
+  line-height: 1.35;
+}
+
+.manual-content h4 {
+  margin: 24px 0 10px;
+  color: var(--blue);
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.heading-anchor {
+  text-decoration: none;
+}
+
+.manual-content p {
+  margin: 10px 0;
+  color: #24302f;
+}
+
+.manual-content blockquote {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border-left: 4px solid var(--teal);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: #344341;
+  background: rgba(0, 127, 115, 0.065);
+}
+
+.manual-content ol,
+.manual-content ul {
+  margin: 10px 0 16px;
+  padding-left: 24px;
+}
+
+.manual-content li {
+  margin: 6px 0;
+}
+
+.manual-content code {
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--teal-dark);
+  background: var(--paper-soft);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.92em;
+}
+
+.table-wrap {
+  margin: 14px 0 20px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 14px;
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--teal-dark);
+  background: rgba(0, 127, 115, 0.07);
+  font-weight: 760;
+  white-space: nowrap;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.screenshot-card {
+  margin: 18px 0 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(34, 47, 42, 0.08);
+}
+
+.screenshot-open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: #eef1e8;
+  cursor: zoom-in;
+}
+
+.screenshot-open img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 760px;
+  object-fit: contain;
+}
+
+.screenshot-card figcaption {
+  padding: 10px 14px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  background: var(--paper-soft);
+  font-size: 13px;
+}
+
+body.screenshots-collapsed .screenshot-card {
+  display: none;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  padding: 22px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 14px;
+  background: rgba(10, 20, 19, 0.84);
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #fff;
+}
+
+.lightbox-caption {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lightbox-close {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  border-radius: var(--radius);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.lightbox-body {
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.36);
+}
+
+.back-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 35;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--teal-dark);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 26px rgba(34, 47, 42, 0.16);
+  cursor: pointer;
+}
+
+@media (max-width: 1180px) {
+  .topbar {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+
+  :root {
+    --topbar-height: 174px;
+  }
+}
+
+@media (max-width: 920px) {
+  body {
+    background-size: 28px 28px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: calc(var(--topbar-height) + 8px);
+    z-index: 20;
+    max-height: 240px;
+  }
+
+  .toc {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toc-level-3 {
+    padding-left: 10px;
+  }
+
+  .overview,
+  .chapter {
+    padding: 20px;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .stat:nth-child(2n) {
+    border-right: none;
+  }
+
+  .stat:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 620px) {
+  :root {
+    --topbar-height: 182px;
+  }
+
+  .topbar {
+    padding: 12px 14px;
+  }
+
+  .sidebar {
+    max-height: 220px;
+  }
+
+  .toc {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stat:last-child {
+    border-bottom: none;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+
+  .result-link {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .topbar,
+  .sidebar,
+  .back-top,
+  .progress,
+  .search-results,
+  .empty-state {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .layout {
+    display: block;
+    padding: 0;
+    width: 100%;
+  }
+
+  .overview,
+  .chapter,
+  .screenshot-card {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+
+  <header class="topbar" id="top">
+    <a class="brand" href="#top">
+      <span class="brand-title">智慧停车收费系统用户手册</span>
+      <span class="brand-version">V1.0 / 2026-06-04</span>
+    </a>
+    <label class="search-box">
+      <input id="manualSearch" type="search" autocomplete="off" placeholder="搜索功能、问题、页面名称或截图">
+    </label>
+    <div class="actions">
+      <button class="action-button" id="toggleScreenshots" type="button">隐藏截图</button>
+      <button class="action-button" id="printManual" type="button">打印</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="手册目录">
+      <p class="side-label">目录</p>
+      <nav class="toc">
+<a class="toc-link toc-level-2" href="#sec-1">1. 手册说明</a>
+<a class="toc-link toc-level-3" href="#sec-1-1">1.1 适用对象</a>
+<a class="toc-link toc-level-3" href="#sec-1-2">1.2 系统定位</a>
+<a class="toc-link toc-level-3" href="#sec-1-3">1.3 功能模块总览</a>
+<a class="toc-link toc-level-2" href="#sec-2">2. 登录后首页与导航</a>
+<a class="toc-link toc-level-3" href="#sec-2-1">2.1 监控台</a>
+<a class="toc-link toc-level-2" href="#sec-3">3. 停车中心</a>
+<a class="toc-link toc-level-3" href="#sec-3-1">3.1 车场管理</a>
+<a class="toc-link toc-level-3" href="#sec-3-2">3.2 车场监管</a>
+<a class="toc-link toc-level-3" href="#sec-3-3">3.3 车位管理</a>
+<a class="toc-link toc-level-3" href="#sec-3-4">3.4 车位监管</a>
+<a class="toc-link toc-level-3" href="#sec-3-5">3.5 收费规则</a>
+<a class="toc-link toc-level-3" href="#sec-3-6">3.6 收费日历</a>
+<a class="toc-link toc-level-3" href="#sec-3-7">3.7 停车记录、人工干预、地图导览</a>
+<a class="toc-link toc-level-3" href="#sec-3-8">3.8 泊位操作</a>
+<a class="toc-link toc-level-3" href="#sec-3-9">3.9 申请驶离</a>
+<a class="toc-link toc-level-3" href="#sec-3-10">3.10 故障上报</a>
+<a class="toc-link toc-level-3" href="#sec-3-11">3.11 设备管理</a>
+<a class="toc-link toc-level-3" href="#sec-3-12">3.12 设备监控</a>
+<a class="toc-link toc-level-3" href="#sec-3-13">3.13 停车引导</a>
+<a class="toc-link toc-level-2" href="#sec-4">4. 订单中心</a>
+<a class="toc-link toc-level-3" href="#sec-4-1">4.1 停车订单</a>
+<a class="toc-link toc-level-3" href="#sec-4-2">4.2 支付流水</a>
+<a class="toc-link toc-level-3" href="#sec-4-3">4.3 退款记录</a>
+<a class="toc-link toc-level-3" href="#sec-4-4">4.4 超时订单、异常订单、作废记录</a>
+<a class="toc-link toc-level-3" href="#sec-4-5">4.5 欠费管理</a>
+<a class="toc-link toc-level-3" href="#sec-4-6">4.6 订单合并</a>
+<a class="toc-link toc-level-2" href="#sec-5">5. 运营中心</a>
+<a class="toc-link toc-level-3" href="#sec-5-1">5.1 营收统计</a>
+<a class="toc-link toc-level-3" href="#sec-5-2">5.2 员工管理</a>
+<a class="toc-link toc-level-3" href="#sec-5-3">5.3 客户管理</a>
+<a class="toc-link toc-level-3" href="#sec-5-4">5.4 会员管理</a>
+<a class="toc-link toc-level-3" href="#sec-5-5">5.5 优惠券管理</a>
+<a class="toc-link toc-level-3" href="#sec-5-6">5.6 发票管理</a>
+<a class="toc-link toc-level-3" href="#sec-5-7">5.7 白名单管理</a>
+<a class="toc-link toc-level-2" href="#sec-6">6. 系统中心</a>
+<a class="toc-link toc-level-3" href="#sec-6-1">6.1 商户配置</a>
+<a class="toc-link toc-level-3" href="#sec-6-2">6.2 系统用户</a>
+<a class="toc-link toc-level-3" href="#sec-6-3">6.3 系统配置</a>
+<a class="toc-link toc-level-3" href="#sec-6-4">6.4 系统日志与系统工具</a>
+<a class="toc-link toc-level-2" href="#sec-7">7. 个人中心</a>
+<a class="toc-link toc-level-3" href="#sec-7-1">7.1 个人信息</a>
+<a class="toc-link toc-level-3" href="#sec-7-2">7.2 下载中心</a>
+<a class="toc-link toc-level-3" href="#sec-7-3">7.3 批量任务</a>
+<a class="toc-link toc-level-2" href="#sec-8">8. 微信服务号相关操作截图</a>
+<a class="toc-link toc-level-3" href="#sec-8-1">8.1 登录与账号信息</a>
+<a class="toc-link toc-level-3" href="#sec-8-2">8.2 草稿箱与图文素材</a>
+<a class="toc-link toc-level-2" href="#sec-9">9. 本版未覆盖范围</a>
+<a class="toc-link toc-level-2" href="#sec-10">10. 说明边界</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="overview" aria-labelledby="manual-title">
+        <p class="eyebrow">第一版用户手册</p>
+        <h1 id="manual-title">智慧停车收费系统用户手册</h1>
+        <p class="intro">基于已整理的 Markdown 手册和 359 张系统截图生成，用于客户演示、内部查询和后续 HTML 版本迭代。页面内容遵循“不推断未确认规则”的边界。</p>
+        <div class="stat-grid" aria-label="手册概览">
+          <div class="stat"><strong>10</strong><span>一级模块</span></div>
+          <div class="stat"><strong>39</strong><span>功能章节</span></div>
+          <div class="stat"><strong>359</strong><span>系统截图</span></div>
+          <div class="stat"><strong>V1.0</strong><span>当前版本</span></div>
+        </div>
+        <div class="chip-row" aria-label="常用查询">
+          <button class="chip" type="button" data-query="退款">退款</button>
+          <button class="chip" type="button" data-query="欠费">欠费</button>
+          <button class="chip" type="button" data-query="支付流水">支付流水</button>
+          <button class="chip" type="button" data-query="设备">设备</button>
+          <button class="chip" type="button" data-query="收费规则">收费规则</button>
+          <button class="chip" type="button" data-query="白名单">白名单</button>
+          <button class="chip" type="button" data-query="系统配置">系统配置</button>
+          <button class="chip" type="button" data-query="微信服务号">微信服务号</button>
+        </div>
+        <div class="search-results" id="searchResults" aria-live="polite"></div>
+        <div class="empty-state" id="emptyState" hidden>没有找到匹配内容。</div>
+      </section>
+
+      <article class="manual-content" id="manualContent">
+<blockquote>本手册根据现有文字资料和 <code>screenshot</code> 目录中的系统截图整理，可直接作为后续 HTML 演示页的内容基础。<br>编写原则：有文字资料的功能，按已确认资料编写操作说明；只有截图的功能，按页面显示的菜单、筛选项、按钮、表格列、弹窗和页面标题描述功能。页面未出现、文字资料也没有确认的审批规则、金额影响、权限边界和后台生效机制，不在本手册中推断。</blockquote>
+<section class="chapter" id="sec-1-chapter">
+<h2 id="sec-1"><a class="heading-anchor" href="#sec-1">1. 手册说明</a></h2>
+<h3 id="sec-1-1"><a class="heading-anchor" href="#sec-1-1">1.1 适用对象</a></h3>
+<p>本手册面向停车收费管理平台的日常使用人员，包括平台管理员、停车运营人员、收费管理人员、客服处理人员、财务对账人员等。</p>
+<h3 id="sec-1-2"><a class="heading-anchor" href="#sec-1-2">1.2 系统定位</a></h3>
+<p>停车收费管理平台面向城市级及物业级停车管理场景，提供路侧停车与封闭车场一体化管理能力。系统品牌名可配置，现有资料中记录为“一九智慧停车 / 涵涵物业智慧停车”。</p>
+<h3 id="sec-1-3"><a class="heading-anchor" href="#sec-1-3">1.3 功能模块总览</a></h3>
+<div class="table-wrap"><table><thead><tr><th>模块</th><th>说明</th></tr></thead><tbody><tr><td>监控台</td><td>平台首页，展示平台使用引导、关键经营指标、收入趋势、投诉/申诉和帮助入口。</td></tr><tr><td>停车中心</td><td>车场、车位、收费规则、设备、故障、停车引导等停车基础业务管理。</td></tr><tr><td>订单中心</td><td>停车订单、支付流水、退款记录、异常订单、超时订单、欠费订单、订单合并等订单相关页面。</td></tr><tr><td>运营中心</td><td>营收统计、员工管理、客户管理、会员、优惠券、发票、白名单等运营页面。</td></tr><tr><td>系统中心</td><td>商户配置、系统用户、系统日志、系统配置、系统工具等平台配置页面。</td></tr><tr><td>个人中心</td><td>个人信息、下载中心、批量任务。</td></tr><tr><td>封闭车场</td><td>顶部导航中存在“封闭车场”入口，当前截图集中未包含该模块页面，本手册不展开。</td></tr><tr><td>终端应用</td><td>顶部导航中存在“停车驾驶舱”“下载中心”等入口；PDA 和小程序页面截图当前未包含在截图集中，本手册不展开终端端流程。</td></tr></tbody></table></div>
+</section>
+<section class="chapter" id="sec-2-chapter">
+<h2 id="sec-2"><a class="heading-anchor" href="#sec-2">2. 登录后首页与导航</a></h2>
+<h3 id="sec-2-1"><a class="heading-anchor" href="#sec-2-1">2.1 监控台</a></h3>
+<p>监控台是登录后的首页。页面显示顶部提供平台主导航，页面主体包含使用引导、费用概览、昨日收入概览、昨日收入分布、近七日趋势、微信投诉、异常申诉、公告和使用帮助等区域。</p>
+<p>监控台上方的引导区展示平台初始化流程，包括“选择入驻方式”“配置收费规则”“配置路段及泊位”“添加收费员”“下载手持机 APK”。下方的数据区展示泊位数量、注册用户、支付金额、支付笔数、历史会员、当前会员、企业余额、短信余量和待支付等信息。收入图表区域用于查看昨日收入和近七日趋势；右侧帮助区域提供新手引导、接入准备、产品文档等入口。</p>
+<figure class="screenshot-card" data-screenshot="1">
+  <button class="screenshot-open" type="button" aria-label="查看截图：监控台">
+    <img src="screenshot/监控台/监控台.png" alt="监控台" loading="lazy" decoding="async" data-full="screenshot/监控台/监控台.png">
+  </button>
+  <figcaption>监控台</figcaption>
+</figure>
+
+</section>
+<section class="chapter" id="sec-3-chapter">
+<h2 id="sec-3"><a class="heading-anchor" href="#sec-3">3. 停车中心</a></h2>
+<p>停车中心是当前资料中内容最完整的模块，包含车场管理、车位管理、车场监管、车位监管、收费规则等核心功能。</p>
+<figure class="screenshot-card" data-screenshot="2">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车中心">
+    <img src="screenshot/停车中心/停车中心.png" alt="停车中心" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车中心.png">
+  </button>
+  <figcaption>停车中心</figcaption>
+</figure>
+
+<h3 id="sec-3-1"><a class="heading-anchor" href="#sec-3-1">3.1 车场管理</a></h3>
+<p>入口：停车中心 → 停车管理 → 车场管理</p>
+<p>车场管理用于维护路侧或封闭停车路段的基础信息，包括新建、编辑、删除、数据导出、监管数据重置和路段图片维护。路段是系统管理停车业务的基础地理单元，一个路段下可以包含多个泊位。只有启用状态的路段，才能正常接收停车订单、设备上报和收费业务。</p>
+<figure class="screenshot-card" data-screenshot="3">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场管理">
+    <img src="screenshot/停车中心/停车管理/车场管理/车场管理.png" alt="车场管理" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车场管理/车场管理.png">
+  </button>
+  <figcaption>车场管理</figcaption>
+</figure>
+
+<h4 id="sec-3-1-1"><a class="heading-anchor" href="#sec-3-1-1">3.1.1 查询路段</a></h4>
+<ol><li>进入“停车中心 → 停车管理 → 车场管理”。</li><li>在筛选区输入路段名称、路段编号、是否启用、收费规则等条件。</li><li>点击“查询”加载结果。</li><li>点击“重置”清空筛选条件。</li></ol>
+<h4 id="sec-3-1-2"><a class="heading-anchor" href="#sec-3-1-2">3.1.2 新建路段</a></h4>
+<ol><li>点击“新建路段”。</li><li>填写路段名称、是否启用、收费规则、路段模式、计费规则、停车类型、经纬度等信息。</li><li>在地图中选址，系统自动回填坐标，必要时可微调。</li><li>点击“保存”。</li></ol>
+<figure class="screenshot-card" data-screenshot="4">
+  <button class="screenshot-open" type="button" aria-label="查看截图：新建路段">
+    <img src="screenshot/停车中心/停车管理/车场管理/新建路段.png" alt="新建路段" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车场管理/新建路段.png">
+  </button>
+  <figcaption>新建路段</figcaption>
+</figure>
+
+<p>新建路段不会同步创建泊位。创建路段后，需要到“车位管理”单独添加泊位，也可以通过“批量任务”创建批量添加泊位任务。</p>
+<h4 id="sec-3-1-3"><a class="heading-anchor" href="#sec-3-1-3">3.1.3 编辑路段</a></h4>
+<ol><li>在目标路段操作列点击“编辑”。</li><li>修改需要调整的字段。</li><li>点击“保存”。</li></ol>
+<figure class="screenshot-card" data-screenshot="5">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑路段">
+    <img src="screenshot/停车中心/停车管理/车场管理/编辑.png" alt="编辑路段" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车场管理/编辑.png">
+  </button>
+  <figcaption>编辑路段</figcaption>
+</figure>
+
+<p>注意：修改收费规则不影响已产生的在停订单，在停订单仍按订单创建时的收费规则计费。修改路段模式会影响在停订单，例如取消“地磁”后，该路段不再处理地磁上报数据，在停车辆只能手动驶离。</p>
+<h4 id="sec-3-1-4"><a class="heading-anchor" href="#sec-3-1-4">3.1.4 删除路段</a></h4>
+<ol><li>在目标路段操作列点击“删除”。</li><li>阅读系统二次确认提示。</li><li>确认无误后点击确认删除。</li></ol>
+<figure class="screenshot-card" data-screenshot="6">
+  <button class="screenshot-open" type="button" aria-label="查看截图：删除路段">
+    <img src="screenshot/停车中心/停车管理/车场管理/删除.png" alt="删除路段" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车场管理/删除.png">
+  </button>
+  <figcaption>删除路段</figcaption>
+</figure>
+
+<p>删除路段不可逆，会同步删除该路段下所有泊位数据，泊位绑定的设备会自动变更为未绑定状态，并可能影响尚未驶出的订单。删除前建议先处理在停车辆并做好数据备份。</p>
+<h4 id="sec-3-1-5"><a class="heading-anchor" href="#sec-3-1-5">3.1.5 数据导出</a></h4>
+<ol><li>点击“数据导出”。</li><li>在弹窗中选择注册时间范围。</li><li>点击“确定”，系统生成并下载 Excel 文件。</li></ol>
+<figure class="screenshot-card" data-screenshot="7">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场管理数据导出">
+    <img src="screenshot/停车中心/停车管理/车场管理/数据导出.png" alt="车场管理数据导出" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车场管理/数据导出.png">
+  </button>
+  <figcaption>车场管理数据导出</figcaption>
+</figure>
+
+<p>导出字段包括路段名称、路段编号、泊位数量、是否启用、路段模式、支付离场、收费规则、创建时间、所在省市、路段位置、路段坐标等。</p>
+<h4 id="sec-3-1-6"><a class="heading-anchor" href="#sec-3-1-6">3.1.6 重置监管数据</a></h4>
+<p>当某一路段的泊位统计数据异常时，可在操作列点击“重置”，重新计算监管中的泊位统计数据。</p>
+<figure class="screenshot-card" data-screenshot="8">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场管理重置">
+    <img src="screenshot/停车中心/停车管理/车场管理/重置.png" alt="车场管理重置" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车场管理/重置.png">
+  </button>
+  <figcaption>车场管理重置</figcaption>
+</figure>
+
+<p>重置只修复监管看板上的统计结果，不改变设备实际状态。</p>
+<h4 id="sec-3-1-7"><a class="heading-anchor" href="#sec-3-1-7">3.1.7 维护路段图片</a></h4>
+<ol><li>在操作列点击“图片”。</li><li>上传路段展示图片。</li><li>点击“保存”。</li></ol>
+<figure class="screenshot-card" data-screenshot="9">
+  <button class="screenshot-open" type="button" aria-label="查看截图：路段图片">
+    <img src="screenshot/停车中心/停车管理/车场管理/图片.png" alt="路段图片" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车场管理/图片.png">
+  </button>
+  <figcaption>路段图片</figcaption>
+</figure>
+
+<p>现有资料说明该图片可用于路段图片展示，例如车主小程序中的路段详情页。</p>
+<h4 id="sec-3-1-8"><a class="heading-anchor" href="#sec-3-1-8">3.1.8 路段模式说明</a></h4>
+<div class="table-wrap"><table><thead><tr><th>模式</th><th>说明</th></tr></thead><tbody><tr><td>PDA</td><td>收费员手持终端录入，负责拍照识别车牌、打印停车小票、补录地磁漏检车辆。</td></tr><tr><td>地磁</td><td>地磁设备自动检测车辆驶入和驶离时间。</td></tr><tr><td>巡检车</td><td>批量录入车牌信息，可与地磁数据进行二次校验。</td></tr><tr><td>视频桩 / 路牙机 / 高位视频</td><td>视频设备自动识别车牌。</td></tr><tr><td>地锁</td><td>通过地锁升降控制车辆停放。</td></tr></tbody></table></div>
+<p>现有资料说明 PDA 一般为必备，常见组合包括 PDA + 地磁、PDA + 地磁 + 巡检车、PDA + 视频桩 / 路牙机 / 高位视频 / 地锁。</p>
+<h3 id="sec-3-2"><a class="heading-anchor" href="#sec-3-2">3.2 车场监管</a></h3>
+<p>入口：停车中心 → 停车管理 → 车场监管</p>
+<p>车场监管用于汇总查看各路段的泊位动态数据，包括泊位总数、空闲泊位、占用泊位、停车数量、统计异常数和最后更新时间。</p>
+<figure class="screenshot-card" data-screenshot="10">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场监管">
+    <img src="screenshot/停车中心/停车管理/车场监管/车场监管.png" alt="车场监管" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车场监管/车场监管.png">
+  </button>
+  <figcaption>车场监管</figcaption>
+</figure>
+
+<h4 id="sec-3-2-1"><a class="heading-anchor" href="#sec-3-2-1">3.2.1 查询路段监管数据</a></h4>
+<ol><li>进入“停车中心 → 停车管理 → 车场监管”。</li><li>在路段名称输入框中输入关键词。</li><li>点击“查询”。</li><li>点击“重置”清空筛选条件。</li></ol>
+<h4 id="sec-3-2-2"><a class="heading-anchor" href="#sec-3-2-2">3.2.2 重置路段监管数据</a></h4>
+<p>当泊位统计数据与实际不符、停车数量与占用泊位不一致，或统计异常数大于 0 时，可在目标路段操作列点击“重置”。</p>
+<figure class="screenshot-card" data-screenshot="11">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场监管重置">
+    <img src="screenshot/停车中心/停车管理/车场监管/重置.png" alt="车场监管重置" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车场监管/重置.png">
+  </button>
+  <figcaption>车场监管重置</figcaption>
+</figure>
+
+<p>字段关系：</p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>说明</th></tr></thead><tbody><tr><td>泊位总数</td><td>该路段下绑定的泊位总数。</td></tr><tr><td>空闲泊位</td><td>当前未被占用的泊位数量。</td></tr><tr><td>占用泊位</td><td>当前被车辆占用的泊位数量。</td></tr><tr><td>停车数量</td><td>当前在停车辆数。正常情况下与占用泊位接近。</td></tr><tr><td>统计异常数</td><td>泊位状态与订单数据不一致的数量。</td></tr></tbody></table></div>
+<h3 id="sec-3-3"><a class="heading-anchor" href="#sec-3-3">3.3 车位管理</a></h3>
+<p>入口：停车中心 → 停车管理 → 车位管理</p>
+<p>车位管理用于维护各路段下的泊位档案，支持查询、新增、编辑、删除、批量迁移、批量驶出、批量删除、数据导出和查看设备上报数据。</p>
+<figure class="screenshot-card" data-screenshot="12">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车位管理">
+    <img src="screenshot/停车中心/停车管理/车位管理/车位管理.png" alt="车位管理" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车位管理/车位管理.png">
+  </button>
+  <figcaption>车位管理</figcaption>
+</figure>
+
+<h4 id="sec-3-3-1"><a class="heading-anchor" href="#sec-3-3-1">3.3.1 查询泊位</a></h4>
+<ol><li>进入“停车中心 → 停车管理 → 车位管理”。</li><li>输入或选择查询条件：路段名称、泊位编号、设备编号、当前状态、当前车牌。</li><li>点击“查询”查看结果。</li><li>点击“重置”清空条件。</li><li>点击“展开”或“收起”切换高级查询条件。</li></ol>
+<figure class="screenshot-card" data-screenshot="13">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车位当前状态">
+    <img src="screenshot/停车中心/停车管理/车位管理/车位管理-当前状态.png" alt="车位当前状态" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车位管理/车位管理-当前状态.png">
+  </button>
+  <figcaption>车位当前状态</figcaption>
+</figure>
+
+<h4 id="sec-3-3-2"><a class="heading-anchor" href="#sec-3-3-2">3.3.2 添加泊位</a></h4>
+<ol><li>点击“添加泊位”。</li><li>选择路段。</li><li>输入泊位编号。</li><li>选择设备类型和设备编号。</li><li>点击“确定”保存。</li></ol>
+<figure class="screenshot-card" data-screenshot="14">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加泊位">
+    <img src="screenshot/停车中心/停车管理/车位管理/添加泊位.png" alt="添加泊位" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车位管理/添加泊位.png">
+  </button>
+  <figcaption>添加泊位</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="15">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加泊位选择设备类型">
+    <img src="screenshot/停车中心/停车管理/车位管理/添加泊位-设备类型.png" alt="添加泊位选择设备类型" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车位管理/添加泊位-设备类型.png">
+  </button>
+  <figcaption>添加泊位选择设备类型</figcaption>
+</figure>
+
+<p>泊位编号只支持字母、数字、<code>-</code>，长度不超过 50 字符。同一路段内不可重复，不同路段之间可以重复。</p>
+<h4 id="sec-3-3-3"><a class="heading-anchor" href="#sec-3-3-3">3.3.3 编辑泊位</a></h4>
+<ol><li>在目标泊位操作列点击“编辑”。</li><li>修改泊位编号、设备类型或设备编号。</li><li>点击“确定”。</li></ol>
+<figure class="screenshot-card" data-screenshot="16">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑泊位">
+    <img src="screenshot/停车中心/停车管理/车位管理/编辑.png" alt="编辑泊位" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车位管理/编辑.png">
+  </button>
+  <figcaption>编辑泊位</figcaption>
+</figure>
+
+<p>单个泊位编辑时不可修改所属路段。如需调整所属路段，使用批量迁移。</p>
+<h4 id="sec-3-3-4"><a class="heading-anchor" href="#sec-3-3-4">3.3.4 删除泊位</a></h4>
+<ol><li>在目标泊位操作列点击“删除”。</li><li>在确认弹窗中点击“确定”。</li></ol>
+<figure class="screenshot-card" data-screenshot="17">
+  <button class="screenshot-open" type="button" aria-label="查看截图：删除泊位">
+    <img src="screenshot/停车中心/停车管理/车位管理/删除.png" alt="删除泊位" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车位管理/删除.png">
+  </button>
+  <figcaption>删除泊位</figcaption>
+</figure>
+
+<p>如果该泊位存在在停订单，系统会拦截删除，并提示先驶出订单后再尝试删除。删除泊位不影响历史订单。</p>
+<h4 id="sec-3-3-5"><a class="heading-anchor" href="#sec-3-3-5">3.3.5 批量操作</a></h4>
+<p>勾选列表左侧复选框后，可进行批量迁移、批量驶出、批量删除。</p>
+<div class="table-wrap"><table><thead><tr><th>批量操作</th><th>说明</th></tr></thead><tbody><tr><td>批量迁移</td><td>将选中泊位迁移到另一个已创建路段。系统会校验目标路段是否存在泊位编号冲突。</td></tr><tr><td>批量驶出</td><td>对选中的在停泊位执行批量驶出，以当前操作时间作为驶出时间结算订单。</td></tr><tr><td>批量删除</td><td>删除选中的泊位。若存在在停订单，系统会拦截。</td></tr></tbody></table></div>
+<h4 id="sec-3-3-6"><a class="heading-anchor" href="#sec-3-3-6">3.3.6 数据导出</a></h4>
+<ol><li>点击“数据导出”。</li><li>选择需要导出的路段。</li><li>点击“确定”，系统下载 Excel 文件。</li></ol>
+<figure class="screenshot-card" data-screenshot="18">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车位管理数据导出">
+    <img src="screenshot/停车中心/停车管理/车位管理/数据导出.png" alt="车位管理数据导出" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车位管理/数据导出.png">
+  </button>
+  <figcaption>车位管理数据导出</figcaption>
+</figure>
+
+<p>导出字段包括路段名称、泊位编号、设备编号、当前状态、当前车牌、创建时间。不支持按时间范围导出，也不支持自定义导出列。</p>
+<h4 id="sec-3-3-7"><a class="heading-anchor" href="#sec-3-3-7">3.3.7 查看设备上报数据</a></h4>
+<p>已绑定设备的泊位，设备编号列为蓝色链接。点击设备编号可查看该设备近期上报数据。</p>
+<figure class="screenshot-card" data-screenshot="19">
+  <button class="screenshot-open" type="button" aria-label="查看截图：点击设备编号查看地磁上报数据">
+    <img src="screenshot/停车中心/停车管理/车位管理/点击设备编号-地磁.png" alt="点击设备编号查看地磁上报数据" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车位管理/点击设备编号-地磁.png">
+  </button>
+  <figcaption>点击设备编号查看地磁上报数据</figcaption>
+</figure>
+
+<p>上报数据可用于排查设备是否正常工作、数据上报是否及时。</p>
+<h4 id="sec-3-3-8"><a class="heading-anchor" href="#sec-3-3-8">3.3.8 泊位状态</a></h4>
+<div class="table-wrap"><table><thead><tr><th>状态</th><th>含义</th></tr></thead><tbody><tr><td>空闲</td><td>泊位无车。</td></tr><tr><td>车辆未录入</td><td>泊位被占用，但未识别或未录入车牌。</td></tr><tr><td>车牌已录入</td><td>泊位被占用，且车牌已识别录入。</td></tr><tr><td>未知状态</td><td>设备长时间未上报、数据异常，或泊位未绑定设备。</td></tr><tr><td>未绑定设备</td><td>添加泊位时未选择设备。</td></tr></tbody></table></div>
+<h3 id="sec-3-4"><a class="heading-anchor" href="#sec-3-4">3.4 车位监管</a></h3>
+<p>入口：停车中心 → 停车管理 → 车位监管</p>
+<p>车位监管以卡片形式展示泊位实时状态，支持按全部、在停、空闲三种状态切换，并可通过路段名称、泊位编号、设备编号筛选。</p>
+<figure class="screenshot-card" data-screenshot="20">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车位监管">
+    <img src="screenshot/停车中心/停车管理/车位监管/车位监管.png" alt="车位监管" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/车位监管/车位监管.png">
+  </button>
+  <figcaption>车位监管</figcaption>
+</figure>
+
+<h4 id="sec-3-4-1"><a class="heading-anchor" href="#sec-3-4-1">3.4.1 切换状态视图</a></h4>
+<p>点击页面顶部 Tab：</p>
+<div class="table-wrap"><table><thead><tr><th>Tab</th><th>说明</th></tr></thead><tbody><tr><td>全部</td><td>展示所有状态的泊位。</td></tr><tr><td>在停</td><td>展示当前被车辆占用的泊位，包括已录入车牌和待录入。</td></tr><tr><td>空闲</td><td>展示当前无车辆占用的泊位。</td></tr></tbody></table></div>
+<h4 id="sec-3-4-2"><a class="heading-anchor" href="#sec-3-4-2">3.4.2 筛选查询</a></h4>
+<p>筛选条件包括路段名称、泊位编号、设备编号。输入条件后点击“查询”，点击“重置”恢复默认展示。</p>
+<h4 id="sec-3-4-3"><a class="heading-anchor" href="#sec-3-4-3">3.4.3 卡片颜色与状态</a></h4>
+<div class="table-wrap"><table><thead><tr><th>卡片颜色</th><th>泊位状态</th><th>卡片顶部内容</th><th>说明</th></tr></thead><tbody><tr><td>蓝色</td><td>在停</td><td>车牌号码</td><td>泊位被占用，且系统已记录车牌。</td></tr><tr><td>橙色</td><td>在停</td><td>待录入</td><td>泊位被占用，但车牌尚未录入，需要收费员通过 PDA 补录。</td></tr><tr><td>绿色</td><td>空闲</td><td>空闲</td><td>泊位无车辆占用。</td></tr><tr><td>紫色</td><td>未知</td><td>未知状态</td><td>系统无法判断实际状态，可能未绑定设备或设备长时间未上报。</td></tr></tbody></table></div>
+<p>车位监管卡片仅用于信息展示，当前资料说明不支持点击跳转或弹出详情。查询结果固定每页 10 条。</p>
+<h3 id="sec-3-5"><a class="heading-anchor" href="#sec-3-5">3.5 收费规则</a></h3>
+<p>入口：停车中心 → 收费管理 → 收费规则</p>
+<p>收费规则用于维护平台停车计费策略。系统支持按天-时刻收费、按天-时长收费、时长收费三种规则类型，并支持规则校验和收费标准图片上传。</p>
+<figure class="screenshot-card" data-screenshot="21">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费规则">
+    <img src="screenshot/停车中心/收费管理/收费规则/收费规则.png" alt="收费规则" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费规则/收费规则.png">
+  </button>
+  <figcaption>收费规则</figcaption>
+</figure>
+
+<h4 id="sec-3-5-1"><a class="heading-anchor" href="#sec-3-5-1">3.5.1 查询收费规则</a></h4>
+<ol><li>进入“停车中心 → 收费管理 → 收费规则”。</li><li>在“规则名称”输入框输入关键词。</li><li>点击“查询”。</li><li>点击“重置”清空条件。</li></ol>
+<h4 id="sec-3-5-2"><a class="heading-anchor" href="#sec-3-5-2">3.5.2 查看规则详情</a></h4>
+<p>点击规则列表左侧展开图标，可查看规则类型、收费日历、车辆类型折扣、小型车和大型车配置详情。</p>
+<figure class="screenshot-card" data-screenshot="22">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费规则列表详情">
+    <img src="screenshot/停车中心/收费管理/收费规则/列表详情.png" alt="收费规则列表详情" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费规则/列表详情.png">
+  </button>
+  <figcaption>收费规则列表详情</figcaption>
+</figure>
+
+<h4 id="sec-3-5-3"><a class="heading-anchor" href="#sec-3-5-3">3.5.3 新增收费规则</a></h4>
+<ol><li>点击“新增”。</li><li>填写规则名称、规则描述。</li><li>选择规则类型。</li><li>配置收费日历、秒数取舍、车辆类型折扣。</li><li>分别配置小型车和大型车收费参数。</li><li>点击“保存”。</li></ol>
+<p>新建规则时，规则版本由系统自动生成，初始版本为 v1.0。</p>
+<figure class="screenshot-card" data-screenshot="23">
+  <button class="screenshot-open" type="button" aria-label="查看截图：新增按天时刻收费规则">
+    <img src="screenshot/停车中心/收费管理/收费规则/新增收费规则-按天时刻收费.png" alt="新增按天时刻收费规则" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费规则/新增收费规则-按天时刻收费.png">
+  </button>
+  <figcaption>新增按天时刻收费规则</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="24">
+  <button class="screenshot-open" type="button" aria-label="查看截图：新增按天时长收费规则">
+    <img src="screenshot/停车中心/收费管理/收费规则/新增收费规则-按天时长收费.png" alt="新增按天时长收费规则" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费规则/新增收费规则-按天时长收费.png">
+  </button>
+  <figcaption>新增按天时长收费规则</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="25">
+  <button class="screenshot-open" type="button" aria-label="查看截图：新增时长收费规则">
+    <img src="screenshot/停车中心/收费管理/收费规则/新增收费规则-时长收费.png" alt="新增时长收费规则" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费规则/新增收费规则-时长收费.png">
+  </button>
+  <figcaption>新增时长收费规则</figcaption>
+</figure>
+
+<h4 id="sec-3-5-4"><a class="heading-anchor" href="#sec-3-5-4">3.5.4 编辑和删除收费规则</a></h4>
+<p>在目标规则操作列点击“编辑”可修改配置。编辑保存后，规则版本自动递增，例如 v1.0 变为 v2.0。</p>
+<p>在目标规则操作列点击“删除”可删除规则。已被路段使用的收费规则不允许直接删除，系统会提示先更改路段所用收费规则。</p>
+<h4 id="sec-3-5-5"><a class="heading-anchor" href="#sec-3-5-5">3.5.5 规则校验</a></h4>
+<ol><li>在目标规则操作列点击“校验”。</li><li>输入驶入时间、驶出时间、停车次数、车辆类型，选择是否启用收费日历。</li><li>点击“计算”。</li><li>查看停车总时长、本次计费时长、本次计费金额和费用明细。</li></ol>
+<figure class="screenshot-card" data-screenshot="26">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费规则校验">
+    <img src="screenshot/停车中心/收费管理/收费规则/校验.png" alt="收费规则校验" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费规则/校验.png">
+  </button>
+  <figcaption>收费规则校验</figcaption>
+</figure>
+
+<p>规则校验用于在规则投入使用前模拟计费结果，确认配置是否符合预期。</p>
+<h4 id="sec-3-5-6"><a class="heading-anchor" href="#sec-3-5-6">3.5.6 上传收费标准图片</a></h4>
+<ol><li>在目标规则操作列点击“图片”。</li><li>上传用于公示的收费规则图片。</li><li>点击“保存”。</li></ol>
+<figure class="screenshot-card" data-screenshot="27">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费标准图片">
+    <img src="screenshot/停车中心/收费管理/收费规则/图片.png" alt="收费标准图片" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费规则/图片.png">
+  </button>
+  <figcaption>收费标准图片</figcaption>
+</figure>
+
+<p>上传后的收费标准图片用于车主小程序或公众号中的收费标准公示。</p>
+<h4 id="sec-3-5-7"><a class="heading-anchor" href="#sec-3-5-7">3.5.7 规则类型选择</a></h4>
+<div class="table-wrap"><table><thead><tr><th>规则类型</th><th>适用场景</th><th>特点</th></tr></thead><tbody><tr><td>按天-时刻收费</td><td>需要分时段差异化定价的路段或车场。</td><td>以自然天为周期，按时刻区间划分不同时段。</td></tr><tr><td>按天-时长收费</td><td>需要按天统计并设置时长上限、阶梯费率的场景。</td><td>以天为计费周期，支持按天或按 24 小时定义一天。</td></tr><tr><td>时长收费</td><td>按实际连续停放时长计费的路侧停车场景。</td><td>按驶入到驶出的总时长连续计费，支持限制模式和限制金额。</td></tr></tbody></table></div>
+<h4 id="sec-3-5-8"><a class="heading-anchor" href="#sec-3-5-8">3.5.8 车辆类型折扣</a></h4>
+<p>车辆类型折扣支持以下方式：</p>
+<div class="table-wrap"><table><thead><tr><th>折扣方式</th><th>说明</th></tr></thead><tbody><tr><td>固定值折扣</td><td>单笔订单按固定金额减免。</td></tr><tr><td>百分比折扣</td><td>单笔订单按原费用的百分比收取。</td></tr><tr><td>免费时长延长</td><td>在规则免费时长基础上延长免费时间。</td></tr><tr><td>停车时长减免</td><td>减免参与计费的停车时长，仅时长收费模式支持。</td></tr></tbody></table></div>
+<h4 id="sec-3-5-9"><a class="heading-anchor" href="#sec-3-5-9">3.5.9 收费规则注意事项</a></h4>
+<ol><li>规则创建后仍可在三种类型之间切换，保存后版本自动递增。</li><li>小型车和大型车配置独立维护。</li><li>单次限额中，<code>-1.00</code> 表示无限制。</li><li>启用收费日历后，系统会结合收费日历中配置的免费日期进行减免。</li><li>已被路段使用的收费规则不可直接删除。</li></ol>
+<h3 id="sec-3-6"><a class="heading-anchor" href="#sec-3-6">3.6 收费日历</a></h3>
+<p>入口：停车中心 → 收费管理 → 收费日历</p>
+<p>收费日历用于维护特殊日期或免费日期类配置。页面显示提供日历视图和列表视图两种查看方式；列表视图中可以创建日历记录、编辑免费日期，也可以通过“批量添加”一次性维护多条日期配置。</p>
+<figure class="screenshot-card" data-screenshot="28">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费日历">
+    <img src="screenshot/停车中心/收费管理/收费日历/收费日历.png" alt="收费日历" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费日历/收费日历.png">
+  </button>
+  <figcaption>收费日历</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="29">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费日历列表视图">
+    <img src="screenshot/停车中心/收费管理/收费日历/列表视图.png" alt="收费日历列表视图" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费日历/列表视图.png">
+  </button>
+  <figcaption>收费日历列表视图</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="30">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费日历创建">
+    <img src="screenshot/停车中心/收费管理/收费日历/列表视图-创建.png" alt="收费日历创建" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费日历/列表视图-创建.png">
+  </button>
+  <figcaption>收费日历创建</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="31">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑免费日期">
+    <img src="screenshot/停车中心/收费管理/收费日历/列表视图-编辑免费日期.png" alt="编辑免费日期" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费日历/列表视图-编辑免费日期.png">
+  </button>
+  <figcaption>编辑免费日期</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="32">
+  <button class="screenshot-open" type="button" aria-label="查看截图：批量添加收费日历">
+    <img src="screenshot/停车中心/收费管理/收费日历/批量添加.png" alt="批量添加收费日历" loading="lazy" decoding="async" data-full="screenshot/停车中心/收费管理/收费日历/批量添加.png">
+  </button>
+  <figcaption>批量添加收费日历</figcaption>
+</figure>
+
+<h3 id="sec-3-7"><a class="heading-anchor" href="#sec-3-7">3.7 停车记录、人工干预、地图导览</a></h3>
+<p>本组页面用于查看停车过程、处理人工干预记录和查看地图导览。以下说明仅依据截图可见内容整理。</p>
+<h4 id="停车记录"><a class="heading-anchor" href="#停车记录">停车记录</a></h4>
+<p>停车记录页面用于查询车辆驶入、驶出形成的停车记录。页面显示提供驶入类型、驶出类型筛选，并支持进入详情页查看记录信息。详情页面显示正常详情和异常详情两类展示，用于查看停车记录的状态、图片或异常相关信息。</p>
+<figure class="screenshot-card" data-screenshot="33">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车记录">
+    <img src="screenshot/停车中心/停车管理/停车记录/停车记录.png" alt="停车记录" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/停车记录/停车记录.png">
+  </button>
+  <figcaption>停车记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="34">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车记录驶入类型">
+    <img src="screenshot/停车中心/停车管理/停车记录/停车记录-驶入类型.png" alt="停车记录驶入类型" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/停车记录/停车记录-驶入类型.png">
+  </button>
+  <figcaption>停车记录驶入类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="35">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车记录驶出类型">
+    <img src="screenshot/停车中心/停车管理/停车记录/停车记录-驶出类型.png" alt="停车记录驶出类型" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/停车记录/停车记录-驶出类型.png">
+  </button>
+  <figcaption>停车记录驶出类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="36">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车记录详情">
+    <img src="screenshot/停车中心/停车管理/停车记录/详情.png" alt="停车记录详情" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/停车记录/详情.png">
+  </button>
+  <figcaption>停车记录详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="37">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车记录异常详情">
+    <img src="screenshot/停车中心/停车管理/停车记录/详情-异常.png" alt="停车记录异常详情" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/停车记录/详情-异常.png">
+  </button>
+  <figcaption>停车记录异常详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="38">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车记录异常详情补充">
+    <img src="screenshot/停车中心/停车管理/停车记录/详情-异常 2.png" alt="停车记录异常详情补充" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/停车记录/详情-异常 2.png">
+  </button>
+  <figcaption>停车记录异常详情补充</figcaption>
+</figure>
+
+<h4 id="人工干预"><a class="heading-anchor" href="#人工干预">人工干预</a></h4>
+<p>人工干预页面用于查看或管理人工处理记录。页面显示包含干预类型筛选，并提供数据导出入口。页面未显示具体干预规则，因此本手册只说明页面可用于查询和导出人工干预记录。</p>
+<figure class="screenshot-card" data-screenshot="39">
+  <button class="screenshot-open" type="button" aria-label="查看截图：人工干预">
+    <img src="screenshot/停车中心/停车管理/人工干预/人工干预.png" alt="人工干预" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/人工干预/人工干预.png">
+  </button>
+  <figcaption>人工干预</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="40">
+  <button class="screenshot-open" type="button" aria-label="查看截图：人工干预类型">
+    <img src="screenshot/停车中心/停车管理/人工干预/人工干预-干预类型.png" alt="人工干预类型" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/人工干预/人工干预-干预类型.png">
+  </button>
+  <figcaption>人工干预类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="41">
+  <button class="screenshot-open" type="button" aria-label="查看截图：人工干预数据导出">
+    <img src="screenshot/停车中心/停车管理/人工干预/数据导出.png" alt="人工干预数据导出" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/人工干预/数据导出.png">
+  </button>
+  <figcaption>人工干预数据导出</figcaption>
+</figure>
+
+<h4 id="地图导览"><a class="heading-anchor" href="#地图导览">地图导览</a></h4>
+<p>地图导览页面以地图方式展示停车相关地理信息。页面显示主体为地图，并在地图上展示路段/区域信息，适合用于演示车场或路段的空间分布。</p>
+<figure class="screenshot-card" data-screenshot="42">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地图导览">
+    <img src="screenshot/停车中心/停车管理/地图导览/地图导览.png" alt="地图导览" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车管理/地图导览/地图导览.png">
+  </button>
+  <figcaption>地图导览</figcaption>
+</figure>
+
+<h3 id="sec-3-8"><a class="heading-anchor" href="#sec-3-8">3.8 泊位操作</a></h3>
+<p>泊位操作包含“操作记录”和“数据推送”两个页面。页面显示，“操作记录”用于查询泊位相关操作流水；“数据推送”用于查看泊位数据推送记录。页面未展示更深层处理规则，因此本节只描述可见查询和列表功能。</p>
+<figure class="screenshot-card" data-screenshot="43">
+  <button class="screenshot-open" type="button" aria-label="查看截图：操作记录">
+    <img src="screenshot/停车中心/泊位操作/操作记录/操作记录.png" alt="操作记录" loading="lazy" decoding="async" data-full="screenshot/停车中心/泊位操作/操作记录/操作记录.png">
+  </button>
+  <figcaption>操作记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="44">
+  <button class="screenshot-open" type="button" aria-label="查看截图：数据推送">
+    <img src="screenshot/停车中心/泊位操作/数据推送/数据推送.png" alt="数据推送" loading="lazy" decoding="async" data-full="screenshot/停车中心/泊位操作/数据推送/数据推送.png">
+  </button>
+  <figcaption>数据推送</figcaption>
+</figure>
+
+<h3 id="sec-3-9"><a class="heading-anchor" href="#sec-3-9">3.9 申请驶离</a></h3>
+<p>申请驶离页面展示车主申请驶离相关记录。页面显示为列表型记录页，可用于查看申请记录及其处理信息。申请来源、审核口径和对订单计费的影响页面未体现，本手册不做推断。</p>
+<figure class="screenshot-card" data-screenshot="45">
+  <button class="screenshot-open" type="button" aria-label="查看截图：申请驶离">
+    <img src="screenshot/停车中心/申请驶离/申请驶离.png" alt="申请驶离" loading="lazy" decoding="async" data-full="screenshot/停车中心/申请驶离/申请驶离.png">
+  </button>
+  <figcaption>申请驶离</figcaption>
+</figure>
+
+<h3 id="sec-3-10"><a class="heading-anchor" href="#sec-3-10">3.10 故障上报</a></h3>
+<p>故障上报页面用于查看设备或现场故障记录。页面显示支持按故障类型筛选，提供数据导出入口；操作中包含“处理”和“查看图片”等弹窗，用于记录处理结果或查看上报图片。</p>
+<figure class="screenshot-card" data-screenshot="46">
+  <button class="screenshot-open" type="button" aria-label="查看截图：故障上报">
+    <img src="screenshot/停车中心/故障上报/故障上报.png" alt="故障上报" loading="lazy" decoding="async" data-full="screenshot/停车中心/故障上报/故障上报.png">
+  </button>
+  <figcaption>故障上报</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="47">
+  <button class="screenshot-open" type="button" aria-label="查看截图：故障类型">
+    <img src="screenshot/停车中心/故障上报/故障上报-故障类型.png" alt="故障类型" loading="lazy" decoding="async" data-full="screenshot/停车中心/故障上报/故障上报-故障类型.png">
+  </button>
+  <figcaption>故障类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="48">
+  <button class="screenshot-open" type="button" aria-label="查看截图：故障上报数据导出">
+    <img src="screenshot/停车中心/故障上报/数据导出.png" alt="故障上报数据导出" loading="lazy" decoding="async" data-full="screenshot/停车中心/故障上报/数据导出.png">
+  </button>
+  <figcaption>故障上报数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="49">
+  <button class="screenshot-open" type="button" aria-label="查看截图：故障处理">
+    <img src="screenshot/停车中心/故障上报/处理.png" alt="故障处理" loading="lazy" decoding="async" data-full="screenshot/停车中心/故障上报/处理.png">
+  </button>
+  <figcaption>故障处理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="50">
+  <button class="screenshot-open" type="button" aria-label="查看截图：查看故障图片">
+    <img src="screenshot/停车中心/故障上报/查看图片.png" alt="查看故障图片" loading="lazy" decoding="async" data-full="screenshot/停车中心/故障上报/查看图片.png">
+  </button>
+  <figcaption>查看故障图片</figcaption>
+</figure>
+
+<h3 id="sec-3-11"><a class="heading-anchor" href="#sec-3-11">3.11 设备管理</a></h3>
+<p>设备管理用于维护和查看停车业务中的硬件设备。页面显示，设备类型包括地磁设备、地锁设备、视频设备、巡检设备和信息维护。各设备页均为列表型管理页面，提供新增、状态查看、数据导出或查看上报/历史数据等能力。具体厂商协议和设备接入参数页面未完整展示，本手册不推断。</p>
+<h4 id="地磁设备"><a class="heading-anchor" href="#地磁设备">地磁设备</a></h4>
+<p>地磁设备页面用于查看地磁设备列表、在线状态、泊位状态和上报数据。页面显示“添加设备”“数据导出”“地磁上报数据”等入口。</p>
+<figure class="screenshot-card" data-screenshot="51">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地磁设备">
+    <img src="screenshot/停车中心/设备管理/地磁设备/地磁设备.png" alt="地磁设备" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地磁设备/地磁设备.png">
+  </button>
+  <figcaption>地磁设备</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="52">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地磁设备泊位状态">
+    <img src="screenshot/停车中心/设备管理/地磁设备/泊位状态.png" alt="地磁设备泊位状态" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地磁设备/泊位状态.png">
+  </button>
+  <figcaption>地磁设备泊位状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="53">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地磁设备在线状态">
+    <img src="screenshot/停车中心/设备管理/地磁设备/在线状态.png" alt="地磁设备在线状态" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地磁设备/在线状态.png">
+  </button>
+  <figcaption>地磁设备在线状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="54">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加地磁设备">
+    <img src="screenshot/停车中心/设备管理/地磁设备/添加设备.png" alt="添加地磁设备" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地磁设备/添加设备.png">
+  </button>
+  <figcaption>添加地磁设备</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="55">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地磁设备数据导出">
+    <img src="screenshot/停车中心/设备管理/地磁设备/数据导出.png" alt="地磁设备数据导出" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地磁设备/数据导出.png">
+  </button>
+  <figcaption>地磁设备数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="56">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地磁上报数据">
+    <img src="screenshot/停车中心/设备管理/地磁设备/地磁上报数据.png" alt="地磁上报数据" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地磁设备/地磁上报数据.png">
+  </button>
+  <figcaption>地磁上报数据</figcaption>
+</figure>
+
+<h4 id="地锁设备"><a class="heading-anchor" href="#地锁设备">地锁设备</a></h4>
+<p>地锁设备页面用于管理地锁设备。页面显示支持添加地锁设备、查看二维码、批量导出二维码、控制地锁、查看上报数据和操作日志。</p>
+<figure class="screenshot-card" data-screenshot="57">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地锁设备">
+    <img src="screenshot/停车中心/设备管理/地锁设备/地锁设备.png" alt="地锁设备" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地锁设备/地锁设备.png">
+  </button>
+  <figcaption>地锁设备</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="58">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加地锁设备">
+    <img src="screenshot/停车中心/设备管理/地锁设备/添加地锁设备.png" alt="添加地锁设备" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地锁设备/添加地锁设备.png">
+  </button>
+  <figcaption>添加地锁设备</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="59">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地锁控制">
+    <img src="screenshot/停车中心/设备管理/地锁设备/控制.png" alt="地锁控制" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地锁设备/控制.png">
+  </button>
+  <figcaption>地锁控制</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="60">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地锁二维码">
+    <img src="screenshot/停车中心/设备管理/地锁设备/二维码.png" alt="地锁二维码" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地锁设备/二维码.png">
+  </button>
+  <figcaption>地锁二维码</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="61">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地锁批量导出二维码">
+    <img src="screenshot/停车中心/设备管理/地锁设备/批量导出二维码.png" alt="地锁批量导出二维码" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地锁设备/批量导出二维码.png">
+  </button>
+  <figcaption>地锁批量导出二维码</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="62">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地锁上报数据">
+    <img src="screenshot/停车中心/设备管理/地锁设备/上报数据.png" alt="地锁上报数据" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地锁设备/上报数据.png">
+  </button>
+  <figcaption>地锁上报数据</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="63">
+  <button class="screenshot-open" type="button" aria-label="查看截图：地锁操作日志">
+    <img src="screenshot/停车中心/设备管理/地锁设备/操作日志.png" alt="地锁操作日志" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/地锁设备/操作日志.png">
+  </button>
+  <figcaption>地锁操作日志</figcaption>
+</figure>
+
+<h4 id="视频设备"><a class="heading-anchor" href="#视频设备">视频设备</a></h4>
+<p>视频设备页面用于管理视频类停车设备。页面显示支持按视频类型、设备状态筛选，提供添加视频设备、查看历史数据、查看告警记录和数据导出等入口。</p>
+<figure class="screenshot-card" data-screenshot="64">
+  <button class="screenshot-open" type="button" aria-label="查看截图：视频设备">
+    <img src="screenshot/停车中心/设备管理/视频设备/视频设备.png" alt="视频设备" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/视频设备/视频设备.png">
+  </button>
+  <figcaption>视频设备</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="65">
+  <button class="screenshot-open" type="button" aria-label="查看截图：视频设备视频类型">
+    <img src="screenshot/停车中心/设备管理/视频设备/视频设备-视频类型.png" alt="视频设备视频类型" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/视频设备/视频设备-视频类型.png">
+  </button>
+  <figcaption>视频设备视频类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="66">
+  <button class="screenshot-open" type="button" aria-label="查看截图：视频设备设备状态">
+    <img src="screenshot/停车中心/设备管理/视频设备/视频设备-设备状态.png" alt="视频设备设备状态" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/视频设备/视频设备-设备状态.png">
+  </button>
+  <figcaption>视频设备设备状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="67">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加视频设备">
+    <img src="screenshot/停车中心/设备管理/视频设备/添加视频设备.png" alt="添加视频设备" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/视频设备/添加视频设备.png">
+  </button>
+  <figcaption>添加视频设备</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="68">
+  <button class="screenshot-open" type="button" aria-label="查看截图：视频设备数据导出">
+    <img src="screenshot/停车中心/设备管理/视频设备/数据导出.png" alt="视频设备数据导出" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/视频设备/数据导出.png">
+  </button>
+  <figcaption>视频设备数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="69">
+  <button class="screenshot-open" type="button" aria-label="查看截图：视频设备历史数据">
+    <img src="screenshot/停车中心/设备管理/视频设备/历史数据.png" alt="视频设备历史数据" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/视频设备/历史数据.png">
+  </button>
+  <figcaption>视频设备历史数据</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="70">
+  <button class="screenshot-open" type="button" aria-label="查看截图：视频设备告警记录">
+    <img src="screenshot/停车中心/设备管理/视频设备/告警记录.png" alt="视频设备告警记录" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/视频设备/告警记录.png">
+  </button>
+  <figcaption>视频设备告警记录</figcaption>
+</figure>
+
+<h4 id="巡检设备"><a class="heading-anchor" href="#巡检设备">巡检设备</a></h4>
+<p>巡检设备页面用于管理巡检设备。页面显示提供创建巡检设备、查看设备详情中的巡检记录，以及查看巡检轨迹等入口。</p>
+<figure class="screenshot-card" data-screenshot="71">
+  <button class="screenshot-open" type="button" aria-label="查看截图：巡检设备">
+    <img src="screenshot/停车中心/设备管理/巡检设备/巡检设备.png" alt="巡检设备" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/巡检设备/巡检设备.png">
+  </button>
+  <figcaption>巡检设备</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="72">
+  <button class="screenshot-open" type="button" aria-label="查看截图：创建巡检设备">
+    <img src="screenshot/停车中心/设备管理/巡检设备/创建.png" alt="创建巡检设备" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/巡检设备/创建.png">
+  </button>
+  <figcaption>创建巡检设备</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="73">
+  <button class="screenshot-open" type="button" aria-label="查看截图：巡检设备详情巡检记录">
+    <img src="screenshot/停车中心/设备管理/巡检设备/设备详情-巡检记录.png" alt="巡检设备详情巡检记录" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/巡检设备/设备详情-巡检记录.png">
+  </button>
+  <figcaption>巡检设备详情巡检记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="74">
+  <button class="screenshot-open" type="button" aria-label="查看截图：巡检轨迹">
+    <img src="screenshot/停车中心/设备管理/巡检设备/巡检轨迹.png" alt="巡检轨迹" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/巡检设备/巡检轨迹.png">
+  </button>
+  <figcaption>巡检轨迹</figcaption>
+</figure>
+
+<h4 id="信息维护"><a class="heading-anchor" href="#信息维护">信息维护</a></h4>
+<p>信息维护页面用于维护设备相关基础信息。页面显示提供“添加信息维护”入口。</p>
+<figure class="screenshot-card" data-screenshot="75">
+  <button class="screenshot-open" type="button" aria-label="查看截图：信息维护">
+    <img src="screenshot/停车中心/设备管理/信息维护/信息维护.png" alt="信息维护" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/信息维护/信息维护.png">
+  </button>
+  <figcaption>信息维护</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="76">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加信息维护">
+    <img src="screenshot/停车中心/设备管理/信息维护/添加信息维护.png" alt="添加信息维护" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备管理/信息维护/添加信息维护.png">
+  </button>
+  <figcaption>添加信息维护</figcaption>
+</figure>
+
+<h3 id="sec-3-12"><a class="heading-anchor" href="#sec-3-12">3.12 设备监控</a></h3>
+<p>设备监控包含“监控配置”和“监控记录”。页面显示，监控配置页提供更新配置入口；监控记录页用于查看设备监控记录。具体监控触发条件页面未体现，本手册不写入。</p>
+<figure class="screenshot-card" data-screenshot="77">
+  <button class="screenshot-open" type="button" aria-label="查看截图：监控配置">
+    <img src="screenshot/停车中心/设备监控/监控配置/监控配置.png" alt="监控配置" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备监控/监控配置/监控配置.png">
+  </button>
+  <figcaption>监控配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="78">
+  <button class="screenshot-open" type="button" aria-label="查看截图：更新监控配置">
+    <img src="screenshot/停车中心/设备监控/监控配置/更新.png" alt="更新监控配置" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备监控/监控配置/更新.png">
+  </button>
+  <figcaption>更新监控配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="79">
+  <button class="screenshot-open" type="button" aria-label="查看截图：监控记录">
+    <img src="screenshot/停车中心/设备监控/监控记录/监控记录.png" alt="监控记录" loading="lazy" decoding="async" data-full="screenshot/停车中心/设备监控/监控记录/监控记录.png">
+  </button>
+  <figcaption>监控记录</figcaption>
+</figure>
+
+<h3 id="sec-3-13"><a class="heading-anchor" href="#sec-3-13">3.13 停车引导</a></h3>
+<p>停车引导包含控制卡和引导节目。控制卡页面用于维护停车诱导屏或控制卡设备，页面显示可添加控制卡、配置节目和执行更新；引导节目页面用于维护节目内容，页面显示包含协议模板、组件模板和编辑节目等入口。</p>
+<figure class="screenshot-card" data-screenshot="80">
+  <button class="screenshot-open" type="button" aria-label="查看截图：控制卡">
+    <img src="screenshot/停车中心/停车引导/控制卡/控制卡.png" alt="控制卡" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车引导/控制卡/控制卡.png">
+  </button>
+  <figcaption>控制卡</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="81">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加控制卡">
+    <img src="screenshot/停车中心/停车引导/控制卡/添加控制卡.png" alt="添加控制卡" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车引导/控制卡/添加控制卡.png">
+  </button>
+  <figcaption>添加控制卡</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="82">
+  <button class="screenshot-open" type="button" aria-label="查看截图：配置节目">
+    <img src="screenshot/停车中心/停车引导/控制卡/配置节目.png" alt="配置节目" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车引导/控制卡/配置节目.png">
+  </button>
+  <figcaption>配置节目</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="83">
+  <button class="screenshot-open" type="button" aria-label="查看截图：控制卡更新">
+    <img src="screenshot/停车中心/停车引导/控制卡/更新.png" alt="控制卡更新" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车引导/控制卡/更新.png">
+  </button>
+  <figcaption>控制卡更新</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="84">
+  <button class="screenshot-open" type="button" aria-label="查看截图：引导节目">
+    <img src="screenshot/停车中心/停车引导/引导节目/引导节目.png" alt="引导节目" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车引导/引导节目/引导节目.png">
+  </button>
+  <figcaption>引导节目</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="85">
+  <button class="screenshot-open" type="button" aria-label="查看截图：引导节目协议模板">
+    <img src="screenshot/停车中心/停车引导/引导节目/协议模板.png" alt="引导节目协议模板" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车引导/引导节目/协议模板.png">
+  </button>
+  <figcaption>引导节目协议模板</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="86">
+  <button class="screenshot-open" type="button" aria-label="查看截图：引导节目组件模板">
+    <img src="screenshot/停车中心/停车引导/引导节目/组件模板.png" alt="引导节目组件模板" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车引导/引导节目/组件模板.png">
+  </button>
+  <figcaption>引导节目组件模板</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="87">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑引导节目">
+    <img src="screenshot/停车中心/停车引导/引导节目/编辑.png" alt="编辑引导节目" loading="lazy" decoding="async" data-full="screenshot/停车中心/停车引导/引导节目/编辑.png">
+  </button>
+  <figcaption>编辑引导节目</figcaption>
+</figure>
+
+</section>
+<section class="chapter" id="sec-4-chapter">
+<h2 id="sec-4"><a class="heading-anchor" href="#sec-4">4. 订单中心</a></h2>
+<p>订单中心用于查询、处理和追踪停车业务中的订单、支付流水、退款、异常、超时和欠费数据。页面显示，订单中心左侧包含“订单管理”“欠费管理”“订单处理”等分组。</p>
+<figure class="screenshot-card" data-screenshot="88">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单中心">
+    <img src="screenshot/订单中心/订单中心.png" alt="订单中心" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单中心.png">
+  </button>
+  <figcaption>订单中心</figcaption>
+</figure>
+
+<h3 id="sec-4-1"><a class="heading-anchor" href="#sec-4-1">4.1 停车订单</a></h3>
+<p>入口：订单中心 → 订单管理 → 停车订单</p>
+<p>停车订单页面用于查询停车订单并查看订单状态。页面显示支持按泊位编号、车牌号码、所属企业、订单编号、停车记录编号、路段名称、订单状态、是否驶出、支付状态、开始时间、结束时间、车牌已录入等条件筛选。列表上方提供数据导出、刷新、下载和字段设置类图标。</p>
+<p>表格可见字段包括所属企业、订单编号、路段名称、泊位编号、车牌号码、车辆类型、订单状态、是否驶出、应收金额、实收金额、支付状态、驶入时间、打印时间、驶出时间、异常审核、支付方式和操作。操作列可见“详情”“驶出”。</p>
+<figure class="screenshot-card" data-screenshot="89">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车订单">
+    <img src="screenshot/订单中心/订单管理/停车订单/停车订单.png" alt="停车订单" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/停车订单.png">
+  </button>
+  <figcaption>停车订单</figcaption>
+</figure>
+
+<p>停车订单列表提供数据导出入口；“车牌已录入”筛选项可见“是”“否”。列表中的泊位编号可点击，点击后弹出该泊位相关上报数据，表格字段包括消息类型、上报时间、车位编号、车位状态、状态变化时间、信号强度和信噪比。</p>
+<figure class="screenshot-card" data-screenshot="90">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车订单数据导出">
+    <img src="screenshot/订单中心/订单管理/停车订单/数据导出.png" alt="停车订单数据导出" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/数据导出.png">
+  </button>
+  <figcaption>停车订单数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="91">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车牌已录入筛选">
+    <img src="screenshot/订单中心/订单管理/停车订单/车牌已录入.png" alt="车牌已录入筛选" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/车牌已录入.png">
+  </button>
+  <figcaption>车牌已录入筛选</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="92">
+  <button class="screenshot-open" type="button" aria-label="查看截图：点击泊位编号">
+    <img src="screenshot/订单中心/订单管理/停车订单/点击泊位编号.png" alt="点击泊位编号" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/点击泊位编号.png">
+  </button>
+  <figcaption>点击泊位编号</figcaption>
+</figure>
+
+<p>订单详情页以订单编号为主线展示订单状态、停车路段、泊位编号、车牌号码、停车时长、应付金额、实付金额、收费规则、停车记录图片、优惠明细、停车过程和支付记录。页面中车牌号码、停车时长旁有编辑图标，表示页面提供对应信息的修改入口；页面右上角提供“返回”。工具栏截图显示详情页支持切换模式和查询模式；切换模式下可按当前泊位、当前路段、当前车牌浏览上一单/下一单，也可过滤历史订单和无效订单。查询模式下可按订单编号、车牌号码、停车路段、泊位编号查询。</p>
+<figure class="screenshot-card" data-screenshot="93">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单详情">
+    <img src="screenshot/订单中心/订单管理/停车订单/订单详情.png" alt="订单详情" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/订单详情.png">
+  </button>
+  <figcaption>订单详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="94">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单详情工具栏">
+    <img src="screenshot/订单中心/订单管理/停车订单/订单详情-工具栏.png" alt="订单详情工具栏" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/订单详情-工具栏.png">
+  </button>
+  <figcaption>订单详情工具栏</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="95">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单详情查询模式">
+    <img src="screenshot/订单中心/订单管理/停车订单/订单详情-工具栏-查询模式.png" alt="订单详情查询模式" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/订单详情-工具栏-查询模式.png">
+  </button>
+  <figcaption>订单详情查询模式</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="96">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单详情已结清">
+    <img src="screenshot/订单中心/订单管理/停车订单/订单详情-已结清.png" alt="订单详情已结清" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/订单详情-已结清.png">
+  </button>
+  <figcaption>订单详情已结清</figcaption>
+</figure>
+
+<p>订单详情页还可见不同支付和退款状态展示：第三方支付的记录可能显示不可退款；部分退款场景会在支付记录中显示已退款金额、退款状态和退款操作；车牌变更记录区域显示操作人员、操作时间以及变更前后的车牌信息。是否允许退款、退款金额计算和车牌变更审批规则未在页面中完整展示。</p>
+<figure class="screenshot-card" data-screenshot="97">
+  <button class="screenshot-open" type="button" aria-label="查看截图：第三方支付不可退款">
+    <img src="screenshot/订单中心/订单管理/停车订单/订单详情-第三方支付不可退款.png" alt="第三方支付不可退款" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/订单详情-第三方支付不可退款.png">
+  </button>
+  <figcaption>第三方支付不可退款</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="98">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单详情部分退款">
+    <img src="screenshot/订单中心/订单管理/停车订单/订单详情-部分退款.png" alt="订单详情部分退款" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/订单详情-部分退款.png">
+  </button>
+  <figcaption>订单详情部分退款</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="99">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单详情车牌变更记录">
+    <img src="screenshot/订单中心/订单管理/停车订单/订单详情-车牌变更记录.png" alt="订单详情车牌变更记录" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/订单详情-车牌变更记录.png">
+  </button>
+  <figcaption>订单详情车牌变更记录</figcaption>
+</figure>
+
+<p>以下截图展示了停车订单页面中可见的常用操作和筛选弹窗：订单状态、支付状态、车牌更改、时长更改、驶出、退款、订单作废和收费规则核验。各操作的适用条件和金额影响页面未完整展示，本手册不推断。</p>
+<figure class="screenshot-card" data-screenshot="100">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单状态">
+    <img src="screenshot/订单中心/订单管理/停车订单/订单状态.png" alt="订单状态" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/订单状态.png">
+  </button>
+  <figcaption>订单状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="101">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付状态">
+    <img src="screenshot/订单中心/订单管理/停车订单/支付状态.png" alt="支付状态" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/支付状态.png">
+  </button>
+  <figcaption>支付状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="102">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车牌更改">
+    <img src="screenshot/订单中心/订单管理/停车订单/车牌更改.png" alt="车牌更改" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/车牌更改.png">
+  </button>
+  <figcaption>车牌更改</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="103">
+  <button class="screenshot-open" type="button" aria-label="查看截图：时长更改">
+    <img src="screenshot/订单中心/订单管理/停车订单/时长更改.png" alt="时长更改" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/时长更改.png">
+  </button>
+  <figcaption>时长更改</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="104">
+  <button class="screenshot-open" type="button" aria-label="查看截图：驶出">
+    <img src="screenshot/订单中心/订单管理/停车订单/驶出.png" alt="驶出" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/驶出.png">
+  </button>
+  <figcaption>驶出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="105">
+  <button class="screenshot-open" type="button" aria-label="查看截图：停车订单退款">
+    <img src="screenshot/订单中心/订单管理/停车订单/退款.png" alt="停车订单退款" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/退款.png">
+  </button>
+  <figcaption>停车订单退款</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="106">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单作废">
+    <img src="screenshot/订单中心/订单管理/停车订单/订单作废.png" alt="订单作废" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/订单作废.png">
+  </button>
+  <figcaption>订单作废</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="107">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费规则核验">
+    <img src="screenshot/订单中心/订单管理/停车订单/收费规则核验.png" alt="收费规则核验" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/停车订单/收费规则核验.png">
+  </button>
+  <figcaption>收费规则核验</figcaption>
+</figure>
+
+<h3 id="sec-4-2"><a class="heading-anchor" href="#sec-4-2">4.2 支付流水</a></h3>
+<p>入口：订单中心 → 订单管理 → 支付流水</p>
+<p>支付流水页面用于查询停车缴费等支付记录。页面显示，筛选条件包括所属企业、平台记录编号、支付方记录编号、支付方式、流水类型、开始时间和结束时间。列表字段包括所属企业、平台记录编号、支付方记录编号、车牌号码、支付金额、支付方式、支付时间、流水类型和操作。操作列可见“明细”“退款”。</p>
+<figure class="screenshot-card" data-screenshot="108">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付流水">
+    <img src="screenshot/订单中心/订单管理/支付流水/支付流水.png" alt="支付流水" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/支付流水/支付流水.png">
+  </button>
+  <figcaption>支付流水</figcaption>
+</figure>
+
+<p>支付方式筛选截图中可见微信支付、支付宝、现金支付、第三方支付、ETC 助缴、钱包支付、优惠券和追缴平台等选项。流水类型筛选截图中可见停车缴费、会员购买、支付测试和钱包充值。页面还提供数据导出入口。</p>
+<figure class="screenshot-card" data-screenshot="109">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付流水支付方式">
+    <img src="screenshot/订单中心/订单管理/支付流水/支付流水-支付方式.png" alt="支付流水支付方式" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/支付流水/支付流水-支付方式.png">
+  </button>
+  <figcaption>支付流水支付方式</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="110">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付流水流水类型">
+    <img src="screenshot/订单中心/订单管理/支付流水/支付流水-流水类型.png" alt="支付流水流水类型" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/支付流水/支付流水-流水类型.png">
+  </button>
+  <figcaption>支付流水流水类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="111">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付流水数据导出">
+    <img src="screenshot/订单中心/订单管理/支付流水/数据导出.png" alt="支付流水数据导出" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/支付流水/数据导出.png">
+  </button>
+  <figcaption>支付流水数据导出</figcaption>
+</figure>
+
+<p>支付流水明细页用于查看单条支付流水详情；退款弹窗用于发起退款操作，页面包含普通退款和全额退款场景。退款审批、到账时效和失败处理在页面中未体现，本手册不写入。</p>
+<figure class="screenshot-card" data-screenshot="112">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付流水明细">
+    <img src="screenshot/订单中心/订单管理/支付流水/明细.png" alt="支付流水明细" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/支付流水/明细.png">
+  </button>
+  <figcaption>支付流水明细</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="113">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付流水退款">
+    <img src="screenshot/订单中心/订单管理/支付流水/退款.png" alt="支付流水退款" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/支付流水/退款.png">
+  </button>
+  <figcaption>支付流水退款</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="114">
+  <button class="screenshot-open" type="button" aria-label="查看截图：全额退款">
+    <img src="screenshot/订单中心/订单管理/支付流水/退款-全额.png" alt="全额退款" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/支付流水/退款-全额.png">
+  </button>
+  <figcaption>全额退款</figcaption>
+</figure>
+
+<h3 id="sec-4-3"><a class="heading-anchor" href="#sec-4-3">4.3 退款记录</a></h3>
+<p>入口：订单中心 → 订单管理 → 退款记录</p>
+<p>退款记录页面用于查询已经发起的退款数据。页面提供商品类型、退款状态、数据导出和查看明细等入口；退款记录补充图展示了列表的补充信息区域。具体退款状态的流转规则未在页面中完整呈现。</p>
+<figure class="screenshot-card" data-screenshot="115">
+  <button class="screenshot-open" type="button" aria-label="查看截图：退款记录">
+    <img src="screenshot/订单中心/订单管理/退款记录/退款记录.png" alt="退款记录" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/退款记录/退款记录.png">
+  </button>
+  <figcaption>退款记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="116">
+  <button class="screenshot-open" type="button" aria-label="查看截图：退款记录商品类型">
+    <img src="screenshot/订单中心/订单管理/退款记录/商品类型.png" alt="退款记录商品类型" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/退款记录/商品类型.png">
+  </button>
+  <figcaption>退款记录商品类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="117">
+  <button class="screenshot-open" type="button" aria-label="查看截图：退款记录退款状态">
+    <img src="screenshot/订单中心/订单管理/退款记录/退款状态.png" alt="退款记录退款状态" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/退款记录/退款状态.png">
+  </button>
+  <figcaption>退款记录退款状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="118">
+  <button class="screenshot-open" type="button" aria-label="查看截图：退款记录数据导出">
+    <img src="screenshot/订单中心/订单管理/退款记录/数据导出.png" alt="退款记录数据导出" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/退款记录/数据导出.png">
+  </button>
+  <figcaption>退款记录数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="119">
+  <button class="screenshot-open" type="button" aria-label="查看截图：退款记录补充">
+    <img src="screenshot/订单中心/订单管理/退款记录/退款记录-补充.png" alt="退款记录补充" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/退款记录/退款记录-补充.png">
+  </button>
+  <figcaption>退款记录补充</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="120">
+  <button class="screenshot-open" type="button" aria-label="查看截图：查看退款明细">
+    <img src="screenshot/订单中心/订单管理/退款记录/查看明细.png" alt="查看退款明细" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/退款记录/查看明细.png">
+  </button>
+  <figcaption>查看退款明细</figcaption>
+</figure>
+
+<h3 id="sec-4-4"><a class="heading-anchor" href="#sec-4-4">4.4 超时订单、异常订单、作废记录</a></h3>
+<p>超时订单页面用于查看超时记录，页面显示提供详情、通知和数据导出入口。异常订单页面用于查询异常订单，并提供异常类型和处理状态筛选。作废记录页面用于查看订单作废记录，并提供数据导出入口。</p>
+<figure class="screenshot-card" data-screenshot="121">
+  <button class="screenshot-open" type="button" aria-label="查看截图：超时记录">
+    <img src="screenshot/订单中心/订单管理/超时订单/超时记录.png" alt="超时记录" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/超时订单/超时记录.png">
+  </button>
+  <figcaption>超时记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="122">
+  <button class="screenshot-open" type="button" aria-label="查看截图：超时订单详情">
+    <img src="screenshot/订单中心/订单管理/超时订单/详情.png" alt="超时订单详情" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/超时订单/详情.png">
+  </button>
+  <figcaption>超时订单详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="123">
+  <button class="screenshot-open" type="button" aria-label="查看截图：超时订单通知">
+    <img src="screenshot/订单中心/订单管理/超时订单/通知.png" alt="超时订单通知" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/超时订单/通知.png">
+  </button>
+  <figcaption>超时订单通知</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="124">
+  <button class="screenshot-open" type="button" aria-label="查看截图：超时订单数据导出">
+    <img src="screenshot/订单中心/订单管理/超时订单/数据导出.png" alt="超时订单数据导出" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/超时订单/数据导出.png">
+  </button>
+  <figcaption>超时订单数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="125">
+  <button class="screenshot-open" type="button" aria-label="查看截图：异常订单">
+    <img src="screenshot/订单中心/订单管理/异常订单/异常订单.png" alt="异常订单" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/异常订单/异常订单.png">
+  </button>
+  <figcaption>异常订单</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="126">
+  <button class="screenshot-open" type="button" aria-label="查看截图：异常类型">
+    <img src="screenshot/订单中心/订单管理/异常订单/异常类型.png" alt="异常类型" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/异常订单/异常类型.png">
+  </button>
+  <figcaption>异常类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="127">
+  <button class="screenshot-open" type="button" aria-label="查看截图：异常订单处理状态">
+    <img src="screenshot/订单中心/订单管理/异常订单/处理状态.png" alt="异常订单处理状态" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/异常订单/处理状态.png">
+  </button>
+  <figcaption>异常订单处理状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="128">
+  <button class="screenshot-open" type="button" aria-label="查看截图：作废记录">
+    <img src="screenshot/订单中心/订单管理/作废记录/作废记录.png" alt="作废记录" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/作废记录/作废记录.png">
+  </button>
+  <figcaption>作废记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="129">
+  <button class="screenshot-open" type="button" aria-label="查看截图：作废记录数据导出">
+    <img src="screenshot/订单中心/订单管理/作废记录/数据导出.png" alt="作废记录数据导出" loading="lazy" decoding="async" data-full="screenshot/订单中心/订单管理/作废记录/数据导出.png">
+  </button>
+  <figcaption>作废记录数据导出</figcaption>
+</figure>
+
+<h3 id="sec-4-5"><a class="heading-anchor" href="#sec-4-5">4.5 欠费管理</a></h3>
+<p>欠费管理包含欠费订单和欠费列表。欠费订单页面显示支持导入欠费订单、批量操作、追缴、作废、订单来源筛选和数据导出。欠费列表页面显示支持欠费查询、更新欠费、清除欠费、滞纳金缓存查询和数据导出。</p>
+<figure class="screenshot-card" data-screenshot="130">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费订单">
+    <img src="screenshot/订单中心/欠费管理/欠费订单/欠费订单.png" alt="欠费订单" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费订单/欠费订单.png">
+  </button>
+  <figcaption>欠费订单</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="131">
+  <button class="screenshot-open" type="button" aria-label="查看截图：导入欠费订单">
+    <img src="screenshot/订单中心/欠费管理/欠费订单/导入欠费订单.png" alt="导入欠费订单" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费订单/导入欠费订单.png">
+  </button>
+  <figcaption>导入欠费订单</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="132">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费订单批量操作">
+    <img src="screenshot/订单中心/欠费管理/欠费订单/批量操作.png" alt="欠费订单批量操作" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费订单/批量操作.png">
+  </button>
+  <figcaption>欠费订单批量操作</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="133">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费订单批量操作提醒">
+    <img src="screenshot/订单中心/欠费管理/欠费订单/批量操作提醒.png" alt="欠费订单批量操作提醒" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费订单/批量操作提醒.png">
+  </button>
+  <figcaption>欠费订单批量操作提醒</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="134">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费订单追缴">
+    <img src="screenshot/订单中心/欠费管理/欠费订单/追缴.png" alt="欠费订单追缴" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费订单/追缴.png">
+  </button>
+  <figcaption>欠费订单追缴</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="135">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费订单作废">
+    <img src="screenshot/订单中心/欠费管理/欠费订单/作废.png" alt="欠费订单作废" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费订单/作废.png">
+  </button>
+  <figcaption>欠费订单作废</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="136">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费订单订单来源">
+    <img src="screenshot/订单中心/欠费管理/欠费订单/订单来源.png" alt="欠费订单订单来源" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费订单/订单来源.png">
+  </button>
+  <figcaption>欠费订单订单来源</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="137">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费订单数据导出">
+    <img src="screenshot/订单中心/欠费管理/欠费订单/数据导出.png" alt="欠费订单数据导出" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费订单/数据导出.png">
+  </button>
+  <figcaption>欠费订单数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="138">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费列表">
+    <img src="screenshot/订单中心/欠费管理/欠费列表/欠费列表.png" alt="欠费列表" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费列表/欠费列表.png">
+  </button>
+  <figcaption>欠费列表</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="139">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费查询">
+    <img src="screenshot/订单中心/欠费管理/欠费列表/欠费查询.png" alt="欠费查询" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费列表/欠费查询.png">
+  </button>
+  <figcaption>欠费查询</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="140">
+  <button class="screenshot-open" type="button" aria-label="查看截图：更新欠费">
+    <img src="screenshot/订单中心/欠费管理/欠费列表/更新欠费.png" alt="更新欠费" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费列表/更新欠费.png">
+  </button>
+  <figcaption>更新欠费</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="141">
+  <button class="screenshot-open" type="button" aria-label="查看截图：清除欠费">
+    <img src="screenshot/订单中心/欠费管理/欠费列表/清除欠费.png" alt="清除欠费" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费列表/清除欠费.png">
+  </button>
+  <figcaption>清除欠费</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="142">
+  <button class="screenshot-open" type="button" aria-label="查看截图：滞纳金缓存查询">
+    <img src="screenshot/订单中心/欠费管理/欠费列表/滞纳金缓存查询.png" alt="滞纳金缓存查询" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费列表/滞纳金缓存查询.png">
+  </button>
+  <figcaption>滞纳金缓存查询</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="143">
+  <button class="screenshot-open" type="button" aria-label="查看截图：欠费列表数据导出">
+    <img src="screenshot/订单中心/欠费管理/欠费列表/数据导出.png" alt="欠费列表数据导出" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/欠费列表/数据导出.png">
+  </button>
+  <figcaption>欠费列表数据导出</figcaption>
+</figure>
+
+<h3 id="sec-4-6"><a class="heading-anchor" href="#sec-4-6">4.6 订单合并</a></h3>
+<p>入口：订单中心 → 订单处理 → 订单合并</p>
+<p>订单合并页面用于处理需要合并的订单。页面显示提供订单合并列表、合并订单弹窗、合并记录和数据导出入口。合并条件和合并后的金额计算方式页面未确认，本手册不推断。</p>
+<figure class="screenshot-card" data-screenshot="144">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单合并">
+    <img src="screenshot/订单中心/欠费管理/订单处理/订单合并.png" alt="订单合并" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/订单处理/订单合并.png">
+  </button>
+  <figcaption>订单合并</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="145">
+  <button class="screenshot-open" type="button" aria-label="查看截图：合并订单">
+    <img src="screenshot/订单中心/欠费管理/订单处理/合并订单.png" alt="合并订单" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/订单处理/合并订单.png">
+  </button>
+  <figcaption>合并订单</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="146">
+  <button class="screenshot-open" type="button" aria-label="查看截图：合并记录">
+    <img src="screenshot/订单中心/欠费管理/订单处理/合并记录.png" alt="合并记录" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/订单处理/合并记录.png">
+  </button>
+  <figcaption>合并记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="147">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单合并数据导出">
+    <img src="screenshot/订单中心/欠费管理/订单处理/数据导出.png" alt="订单合并数据导出" loading="lazy" decoding="async" data-full="screenshot/订单中心/欠费管理/订单处理/数据导出.png">
+  </button>
+  <figcaption>订单合并数据导出</figcaption>
+</figure>
+
+</section>
+<section class="chapter" id="sec-5-chapter">
+<h2 id="sec-5"><a class="heading-anchor" href="#sec-5">5. 运营中心</a></h2>
+<p>运营中心用于查看营收、管理员工、处理客户事项、维护会员和优惠活动、管理发票与白名单。页面显示，运营中心左侧按营收统计、员工管理、客户管理、会员管理、白名单管理、优惠券管理、发票管理分组。</p>
+<figure class="screenshot-card" data-screenshot="148">
+  <button class="screenshot-open" type="button" aria-label="查看截图：运营中心">
+    <img src="screenshot/运营中心/运营中心.png" alt="运营中心" loading="lazy" decoding="async" data-full="screenshot/运营中心/运营中心.png">
+  </button>
+  <figcaption>运营中心</figcaption>
+</figure>
+
+<h3 id="sec-5-1"><a class="heading-anchor" href="#sec-5-1">5.1 营收统计</a></h3>
+<p>营收统计包含当日营收、历史营收、车场当日营收、车场历史营收、财务日报、财务月报、支付对账和子商户对账等页面。页面显示，营收页面通常支持按所属企业、日期或车场维度查询，表格区域展示金额、笔数、支付渠道、手续费、入账净额等信息，并提供详情、数据导出、刷新、下载和字段设置类入口。</p>
+<p>支付对账页面可按所属企业、对账日期和对账状态查询。表格中可见业务统计金额、业务账单数、微信商户交易信息、支付宝商户交易信息、微信差异、支付宝差异、对账状态、手续费和入账净额。操作列可见“详情”，异常行可见“对账”入口。</p>
+<figure class="screenshot-card" data-screenshot="149">
+  <button class="screenshot-open" type="button" aria-label="查看截图：当日营收">
+    <img src="screenshot/运营中心/营收统计/当日营收/当日营收.png" alt="当日营收" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/当日营收/当日营收.png">
+  </button>
+  <figcaption>当日营收</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="150">
+  <button class="screenshot-open" type="button" aria-label="查看截图：当日营收补充 1">
+    <img src="screenshot/运营中心/营收统计/当日营收/当日营收-1.png" alt="当日营收补充 1" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/当日营收/当日营收-1.png">
+  </button>
+  <figcaption>当日营收补充 1</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="151">
+  <button class="screenshot-open" type="button" aria-label="查看截图：当日营收补充 2">
+    <img src="screenshot/运营中心/营收统计/当日营收/当日营收-2.png" alt="当日营收补充 2" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/当日营收/当日营收-2.png">
+  </button>
+  <figcaption>当日营收补充 2</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="152">
+  <button class="screenshot-open" type="button" aria-label="查看截图：历史营收">
+    <img src="screenshot/运营中心/营收统计/历史营收/历史营收.png" alt="历史营收" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/历史营收/历史营收.png">
+  </button>
+  <figcaption>历史营收</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="153">
+  <button class="screenshot-open" type="button" aria-label="查看截图：历史营收补充">
+    <img src="screenshot/运营中心/营收统计/历史营收/历史营收-2.png" alt="历史营收补充" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/历史营收/历史营收-2.png">
+  </button>
+  <figcaption>历史营收补充</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="154">
+  <button class="screenshot-open" type="button" aria-label="查看截图：历史营收数据导出">
+    <img src="screenshot/运营中心/营收统计/历史营收/数据导出.png" alt="历史营收数据导出" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/历史营收/数据导出.png">
+  </button>
+  <figcaption>历史营收数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="155">
+  <button class="screenshot-open" type="button" aria-label="查看截图：历史营收校正确认">
+    <img src="screenshot/运营中心/营收统计/历史营收/校正确认.png" alt="历史营收校正确认" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/历史营收/校正确认.png">
+  </button>
+  <figcaption>历史营收校正确认</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="156">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场当日营收">
+    <img src="screenshot/运营中心/营收统计/车场当日营收/车场当日营收.png" alt="车场当日营收" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/车场当日营收/车场当日营收.png">
+  </button>
+  <figcaption>车场当日营收</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="157">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场当日营收补充">
+    <img src="screenshot/运营中心/营收统计/车场当日营收/车场当日营收-2.png" alt="车场当日营收补充" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/车场当日营收/车场当日营收-2.png">
+  </button>
+  <figcaption>车场当日营收补充</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="158">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场历史营收">
+    <img src="screenshot/运营中心/营收统计/车场历史营收/车场历史营收-1.png" alt="车场历史营收" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/车场历史营收/车场历史营收-1.png">
+  </button>
+  <figcaption>车场历史营收</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="159">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场历史营收补充">
+    <img src="screenshot/运营中心/营收统计/车场历史营收/车场历史营收-2.png" alt="车场历史营收补充" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/车场历史营收/车场历史营收-2.png">
+  </button>
+  <figcaption>车场历史营收补充</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="160">
+  <button class="screenshot-open" type="button" aria-label="查看截图：财务日报">
+    <img src="screenshot/运营中心/营收统计/财务日报/财务日报.png" alt="财务日报" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/财务日报/财务日报.png">
+  </button>
+  <figcaption>财务日报</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="161">
+  <button class="screenshot-open" type="button" aria-label="查看截图：财务月报">
+    <img src="screenshot/运营中心/营收统计/财务月报/财务月报.png" alt="财务月报" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/财务月报/财务月报.png">
+  </button>
+  <figcaption>财务月报</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="162">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付对账">
+    <img src="screenshot/运营中心/营收统计/支付对账/支付对账.png" alt="支付对账" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/支付对账/支付对账.png">
+  </button>
+  <figcaption>支付对账</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="163">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付对账业务类型">
+    <img src="screenshot/运营中心/营收统计/支付对账/业务类型.png" alt="支付对账业务类型" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/支付对账/业务类型.png">
+  </button>
+  <figcaption>支付对账业务类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="164">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付对账支付渠道">
+    <img src="screenshot/运营中心/营收统计/支付对账/支付渠道.png" alt="支付对账支付渠道" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/支付对账/支付渠道.png">
+  </button>
+  <figcaption>支付对账支付渠道</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="165">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付对账结果">
+    <img src="screenshot/运营中心/营收统计/支付对账/对账结果.png" alt="支付对账结果" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/支付对账/对账结果.png">
+  </button>
+  <figcaption>支付对账结果</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="166">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付对账数据导出">
+    <img src="screenshot/运营中心/营收统计/支付对账/数据导出.png" alt="支付对账数据导出" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/支付对账/数据导出.png">
+  </button>
+  <figcaption>支付对账数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="167">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付对账账单详情">
+    <img src="screenshot/运营中心/营收统计/支付对账/账单详情.png" alt="支付对账账单详情" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/支付对账/账单详情.png">
+  </button>
+  <figcaption>支付对账账单详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="168">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付对账详情导出">
+    <img src="screenshot/运营中心/营收统计/支付对账/对账详情导出.png" alt="支付对账详情导出" loading="lazy" decoding="async" data-full="screenshot/运营中心/营收统计/支付对账/对账详情导出.png">
+  </button>
+  <figcaption>支付对账详情导出</figcaption>
+</figure>
+
+<h3 id="sec-5-2"><a class="heading-anchor" href="#sec-5-2">5.2 员工管理</a></h3>
+<p>员工管理用于维护收费人员、班次、排班、考勤、绩效、电子围栏、欠费追缴和操作日志。从“收费人员”截图可见，页面支持按所属企业、员工编号、员工姓名查询，提供创建入口。表格字段包括所属企业、员工编号、员工姓名、员工账号、手机号码、创建时间和操作；操作列可见排班、监管、编辑、删除。</p>
+<figure class="screenshot-card" data-screenshot="169">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费人员">
+    <img src="screenshot/运营中心/员工管理/收费人员/收费人员.png" alt="收费人员" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/收费人员.png">
+  </button>
+  <figcaption>收费人员</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="170">
+  <button class="screenshot-open" type="button" aria-label="查看截图：创建收费人员">
+    <img src="screenshot/运营中心/员工管理/收费人员/创建收费人员.png" alt="创建收费人员" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/创建收费人员.png">
+  </button>
+  <figcaption>创建收费人员</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="171">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑收费人员">
+    <img src="screenshot/运营中心/员工管理/收费人员/编辑.png" alt="编辑收费人员" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/编辑.png">
+  </button>
+  <figcaption>编辑收费人员</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="172">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费人员排班">
+    <img src="screenshot/运营中心/员工管理/收费人员/排班.png" alt="收费人员排班" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/排班.png">
+  </button>
+  <figcaption>收费人员排班</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="173">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费人员选择排班">
+    <img src="screenshot/运营中心/员工管理/收费人员/选择排班.png" alt="收费人员选择排班" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/选择排班.png">
+  </button>
+  <figcaption>收费人员选择排班</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="174">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费人员复制排班">
+    <img src="screenshot/运营中心/员工管理/收费人员/复制排班.png" alt="收费人员复制排班" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/复制排班.png">
+  </button>
+  <figcaption>收费人员复制排班</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="175">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费人员复用排班">
+    <img src="screenshot/运营中心/员工管理/收费人员/复用排班.png" alt="收费人员复用排班" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/复用排班.png">
+  </button>
+  <figcaption>收费人员复用排班</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="176">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费人员单项模式">
+    <img src="screenshot/运营中心/员工管理/收费人员/单项模式.png" alt="收费人员单项模式" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/单项模式.png">
+  </button>
+  <figcaption>收费人员单项模式</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="177">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费人员监管">
+    <img src="screenshot/运营中心/员工管理/收费人员/监管.png" alt="收费人员监管" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/监管.png">
+  </button>
+  <figcaption>收费人员监管</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="178">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费人员监管轨迹模式">
+    <img src="screenshot/运营中心/员工管理/收费人员/监管轨迹模式.png" alt="收费人员监管轨迹模式" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/收费人员/监管轨迹模式.png">
+  </button>
+  <figcaption>收费人员监管轨迹模式</figcaption>
+</figure>
+
+<p>排班管理页面显示支持排班编辑、批量导入排班和批量清除排班。班次配置页面提供创建和修改班次入口。考勤记录页面可按签到类型、签到状态筛选并导出数据。绩效考核页面提供绩效列表和数据导出。电子围栏页面展示收费人员当前位置、活动轨迹和离岗记录。欠费追缴页面展示员工维度的欠费追缴数据并提供导出。</p>
+<figure class="screenshot-card" data-screenshot="179">
+  <button class="screenshot-open" type="button" aria-label="查看截图：排班管理">
+    <img src="screenshot/运营中心/员工管理/排班管理/排班管理.png" alt="排班管理" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/排班管理/排班管理.png">
+  </button>
+  <figcaption>排班管理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="180">
+  <button class="screenshot-open" type="button" aria-label="查看截图：批量导入排班">
+    <img src="screenshot/运营中心/员工管理/排班管理/批量导入排班.png" alt="批量导入排班" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/排班管理/批量导入排班.png">
+  </button>
+  <figcaption>批量导入排班</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="181">
+  <button class="screenshot-open" type="button" aria-label="查看截图：排班管理编辑">
+    <img src="screenshot/运营中心/员工管理/排班管理/编辑.png" alt="排班管理编辑" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/排班管理/编辑.png">
+  </button>
+  <figcaption>排班管理编辑</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="182">
+  <button class="screenshot-open" type="button" aria-label="查看截图：批量清除排班">
+    <img src="screenshot/运营中心/员工管理/排班管理/批量清除排班.png" alt="批量清除排班" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/排班管理/批量清除排班.png">
+  </button>
+  <figcaption>批量清除排班</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="183">
+  <button class="screenshot-open" type="button" aria-label="查看截图：班次配置">
+    <img src="screenshot/运营中心/员工管理/班次配置/班次配置.png" alt="班次配置" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/班次配置/班次配置.png">
+  </button>
+  <figcaption>班次配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="184">
+  <button class="screenshot-open" type="button" aria-label="查看截图：创建班次">
+    <img src="screenshot/运营中心/员工管理/班次配置/创建.png" alt="创建班次" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/班次配置/创建.png">
+  </button>
+  <figcaption>创建班次</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="185">
+  <button class="screenshot-open" type="button" aria-label="查看截图：修改班次">
+    <img src="screenshot/运营中心/员工管理/班次配置/修改班次.png" alt="修改班次" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/班次配置/修改班次.png">
+  </button>
+  <figcaption>修改班次</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="186">
+  <button class="screenshot-open" type="button" aria-label="查看截图：考勤记录">
+    <img src="screenshot/运营中心/员工管理/考勤记录/考勤记录.png" alt="考勤记录" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/考勤记录/考勤记录.png">
+  </button>
+  <figcaption>考勤记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="187">
+  <button class="screenshot-open" type="button" aria-label="查看截图：考勤记录签到类型">
+    <img src="screenshot/运营中心/员工管理/考勤记录/签到类型.png" alt="考勤记录签到类型" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/考勤记录/签到类型.png">
+  </button>
+  <figcaption>考勤记录签到类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="188">
+  <button class="screenshot-open" type="button" aria-label="查看截图：考勤记录签到状态">
+    <img src="screenshot/运营中心/员工管理/考勤记录/签到状态.png" alt="考勤记录签到状态" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/考勤记录/签到状态.png">
+  </button>
+  <figcaption>考勤记录签到状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="189">
+  <button class="screenshot-open" type="button" aria-label="查看截图：考勤记录数据导出">
+    <img src="screenshot/运营中心/员工管理/考勤记录/数据导出.png" alt="考勤记录数据导出" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/考勤记录/数据导出.png">
+  </button>
+  <figcaption>考勤记录数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="190">
+  <button class="screenshot-open" type="button" aria-label="查看截图：绩效考核">
+    <img src="screenshot/运营中心/员工管理/绩效考核/绩效考核.png" alt="绩效考核" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/绩效考核/绩效考核.png">
+  </button>
+  <figcaption>绩效考核</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="191">
+  <button class="screenshot-open" type="button" aria-label="查看截图：绩效考核数据导出">
+    <img src="screenshot/运营中心/员工管理/绩效考核/数据导出.png" alt="绩效考核数据导出" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/绩效考核/数据导出.png">
+  </button>
+  <figcaption>绩效考核数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="192">
+  <button class="screenshot-open" type="button" aria-label="查看截图：电子围栏当前位置">
+    <img src="screenshot/运营中心/员工管理/电子围栏/电子围栏-当前位置.png" alt="电子围栏当前位置" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/电子围栏/电子围栏-当前位置.png">
+  </button>
+  <figcaption>电子围栏当前位置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="193">
+  <button class="screenshot-open" type="button" aria-label="查看截图：电子围栏活动轨迹">
+    <img src="screenshot/运营中心/员工管理/电子围栏/电子围栏-活动轨迹.png" alt="电子围栏活动轨迹" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/电子围栏/电子围栏-活动轨迹.png">
+  </button>
+  <figcaption>电子围栏活动轨迹</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="194">
+  <button class="screenshot-open" type="button" aria-label="查看截图：电子围栏离岗记录">
+    <img src="screenshot/运营中心/员工管理/电子围栏/电子围栏-离岗记录.png" alt="电子围栏离岗记录" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/电子围栏/电子围栏-离岗记录.png">
+  </button>
+  <figcaption>电子围栏离岗记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="195">
+  <button class="screenshot-open" type="button" aria-label="查看截图：员工欠费追缴">
+    <img src="screenshot/运营中心/员工管理/欠费追缴/欠费追缴.png" alt="员工欠费追缴" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/欠费追缴/欠费追缴.png">
+  </button>
+  <figcaption>员工欠费追缴</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="196">
+  <button class="screenshot-open" type="button" aria-label="查看截图：员工欠费追缴数据导出">
+    <img src="screenshot/运营中心/员工管理/欠费追缴/数据导出.png" alt="员工欠费追缴数据导出" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/欠费追缴/数据导出.png">
+  </button>
+  <figcaption>员工欠费追缴数据导出</figcaption>
+</figure>
+
+<p>操作日志页面用于查看员工管理相关操作记录，截图显示提供操作类型筛选。</p>
+<figure class="screenshot-card" data-screenshot="197">
+  <button class="screenshot-open" type="button" aria-label="查看截图：员工操作日志">
+    <img src="screenshot/运营中心/员工管理/操作日志/操作日志.png" alt="员工操作日志" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/操作日志/操作日志.png">
+  </button>
+  <figcaption>员工操作日志</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="198">
+  <button class="screenshot-open" type="button" aria-label="查看截图：员工操作类型 1">
+    <img src="screenshot/运营中心/员工管理/操作日志/操作类型-1.png" alt="员工操作类型 1" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/操作日志/操作类型-1.png">
+  </button>
+  <figcaption>员工操作类型 1</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="199">
+  <button class="screenshot-open" type="button" aria-label="查看截图：员工操作类型 2">
+    <img src="screenshot/运营中心/员工管理/操作日志/操作类型-2.png" alt="员工操作类型 2" loading="lazy" decoding="async" data-full="screenshot/运营中心/员工管理/操作日志/操作类型-2.png">
+  </button>
+  <figcaption>员工操作类型 2</figcaption>
+</figure>
+
+<h3 id="sec-5-3"><a class="heading-anchor" href="#sec-5-3">5.3 客户管理</a></h3>
+<p>客户管理用于查看车主信息、认证信息、投诉、异常申诉和支付记录。从“车主管理”截图可见，页面支持按所属企业、手机号码、绑定车牌查询。表格字段包括所属企业、手机号码、昵称、绑定车牌、认证状态、注册时间、最近登录时间、钱包余额和操作；操作列可见详情、注销。</p>
+<figure class="screenshot-card" data-screenshot="200">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车主管理">
+    <img src="screenshot/运营中心/客户管理/车主管理/车主管理.png" alt="车主管理" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/车主管理/车主管理.png">
+  </button>
+  <figcaption>车主管理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="201">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车主管理数据导出">
+    <img src="screenshot/运营中心/客户管理/车主管理/数据导出.png" alt="车主管理数据导出" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/车主管理/数据导出.png">
+  </button>
+  <figcaption>车主管理数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="202">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车主详情">
+    <img src="screenshot/运营中心/客户管理/车主管理/车主详情.png" alt="车主详情" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/车主管理/车主详情.png">
+  </button>
+  <figcaption>车主详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="203">
+  <button class="screenshot-open" type="button" aria-label="查看截图：已认证车主详情">
+    <img src="screenshot/运营中心/客户管理/车主管理/车主详情-已认证.png" alt="已认证车主详情" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/车主管理/车主详情-已认证.png">
+  </button>
+  <figcaption>已认证车主详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="204">
+  <button class="screenshot-open" type="button" aria-label="查看截图：注销车主">
+    <img src="screenshot/运营中心/客户管理/车主管理/注销.png" alt="注销车主" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/车主管理/注销.png">
+  </button>
+  <figcaption>注销车主</figcaption>
+</figure>
+
+<p>车主认证页面显示支持查看认证状态，并提供查看、审核等入口。微信投诉页面可按投诉单状态筛选，并提供详情和处理入口。异常申诉页面可按异常类型、申诉状态查看申诉，并进入申诉详情。支付记录页面用于查看客户支付记录，页面显示支付方式、支付状态、记录来源筛选和明细入口。</p>
+<figure class="screenshot-card" data-screenshot="205">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车主认证">
+    <img src="screenshot/运营中心/客户管理/车主认证/车主认证.png" alt="车主认证" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/车主认证/车主认证.png">
+  </button>
+  <figcaption>车主认证</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="206">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车主认证状态">
+    <img src="screenshot/运营中心/客户管理/车主认证/认证状态.png" alt="车主认证状态" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/车主认证/认证状态.png">
+  </button>
+  <figcaption>车主认证状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="207">
+  <button class="screenshot-open" type="button" aria-label="查看截图：查看车主认证">
+    <img src="screenshot/运营中心/客户管理/车主认证/查看.png" alt="查看车主认证" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/车主认证/查看.png">
+  </button>
+  <figcaption>查看车主认证</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="208">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车主认证审核">
+    <img src="screenshot/运营中心/客户管理/车主认证/审核.png" alt="车主认证审核" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/车主认证/审核.png">
+  </button>
+  <figcaption>车主认证审核</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="209">
+  <button class="screenshot-open" type="button" aria-label="查看截图：微信投诉">
+    <img src="screenshot/运营中心/客户管理/微信投诉/微信投诉.png" alt="微信投诉" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/微信投诉/微信投诉.png">
+  </button>
+  <figcaption>微信投诉</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="210">
+  <button class="screenshot-open" type="button" aria-label="查看截图：微信投诉状态">
+    <img src="screenshot/运营中心/客户管理/微信投诉/投诉单状态.png" alt="微信投诉状态" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/微信投诉/投诉单状态.png">
+  </button>
+  <figcaption>微信投诉状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="211">
+  <button class="screenshot-open" type="button" aria-label="查看截图：微信投诉详情">
+    <img src="screenshot/运营中心/客户管理/微信投诉/详情.png" alt="微信投诉详情" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/微信投诉/详情.png">
+  </button>
+  <figcaption>微信投诉详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="212">
+  <button class="screenshot-open" type="button" aria-label="查看截图：微信投诉处理">
+    <img src="screenshot/运营中心/客户管理/微信投诉/处理.png" alt="微信投诉处理" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/微信投诉/处理.png">
+  </button>
+  <figcaption>微信投诉处理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="213">
+  <button class="screenshot-open" type="button" aria-label="查看截图：异常申诉">
+    <img src="screenshot/运营中心/客户管理/异常申诉/异常申诉.png" alt="异常申诉" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/异常申诉/异常申诉.png">
+  </button>
+  <figcaption>异常申诉</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="214">
+  <button class="screenshot-open" type="button" aria-label="查看截图：异常申诉异常类型">
+    <img src="screenshot/运营中心/客户管理/异常申诉/异常类型.png" alt="异常申诉异常类型" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/异常申诉/异常类型.png">
+  </button>
+  <figcaption>异常申诉异常类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="215">
+  <button class="screenshot-open" type="button" aria-label="查看截图：异常申诉状态">
+    <img src="screenshot/运营中心/客户管理/异常申诉/申诉状态.png" alt="异常申诉状态" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/异常申诉/申诉状态.png">
+  </button>
+  <figcaption>异常申诉状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="216">
+  <button class="screenshot-open" type="button" aria-label="查看截图：申诉详情">
+    <img src="screenshot/运营中心/客户管理/异常申诉/申诉详情.png" alt="申诉详情" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/异常申诉/申诉详情.png">
+  </button>
+  <figcaption>申诉详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="217">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付记录">
+    <img src="screenshot/运营中心/客户管理/支付记录/支付记录.png" alt="支付记录" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/支付记录/支付记录.png">
+  </button>
+  <figcaption>支付记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="218">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付记录支付方式">
+    <img src="screenshot/运营中心/客户管理/支付记录/支付方式.png" alt="支付记录支付方式" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/支付记录/支付方式.png">
+  </button>
+  <figcaption>支付记录支付方式</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="219">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付记录支付方式补充">
+    <img src="screenshot/运营中心/客户管理/支付记录/支付方式补充.png" alt="支付记录支付方式补充" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/支付记录/支付方式补充.png">
+  </button>
+  <figcaption>支付记录支付方式补充</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="220">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付记录支付状态">
+    <img src="screenshot/运营中心/客户管理/支付记录/支付状态.png" alt="支付记录支付状态" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/支付记录/支付状态.png">
+  </button>
+  <figcaption>支付记录支付状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="221">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付记录来源">
+    <img src="screenshot/运营中心/客户管理/支付记录/记录来源.png" alt="支付记录来源" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/支付记录/记录来源.png">
+  </button>
+  <figcaption>支付记录来源</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="222">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付记录明细">
+    <img src="screenshot/运营中心/客户管理/支付记录/明细.png" alt="支付记录明细" loading="lazy" decoding="async" data-full="screenshot/运营中心/客户管理/支付记录/明细.png">
+  </button>
+  <figcaption>支付记录明细</figcaption>
+</figure>
+
+<h3 id="sec-5-4"><a class="heading-anchor" href="#sec-5-4">5.4 会员管理</a></h3>
+<p>会员管理包含会员卡和模板卡。会员卡页面显示支持添加、续费、作废、状态筛选和数据导出。模板卡页面显示支持创建会员卡、时长卡、次数卡模板，并提供卡类型筛选和编辑入口。</p>
+<figure class="screenshot-card" data-screenshot="223">
+  <button class="screenshot-open" type="button" aria-label="查看截图：会员卡">
+    <img src="screenshot/运营中心/会员管理/会员卡/会员卡.png" alt="会员卡" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/会员卡/会员卡.png">
+  </button>
+  <figcaption>会员卡</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="224">
+  <button class="screenshot-open" type="button" aria-label="查看截图：会员卡状态">
+    <img src="screenshot/运营中心/会员管理/会员卡/会员卡-状态.png" alt="会员卡状态" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/会员卡/会员卡-状态.png">
+  </button>
+  <figcaption>会员卡状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="225">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加会员卡">
+    <img src="screenshot/运营中心/会员管理/会员卡/添加.png" alt="添加会员卡" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/会员卡/添加.png">
+  </button>
+  <figcaption>添加会员卡</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="226">
+  <button class="screenshot-open" type="button" aria-label="查看截图：会员卡续费">
+    <img src="screenshot/运营中心/会员管理/会员卡/续费.png" alt="会员卡续费" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/会员卡/续费.png">
+  </button>
+  <figcaption>会员卡续费</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="227">
+  <button class="screenshot-open" type="button" aria-label="查看截图：会员卡作废">
+    <img src="screenshot/运营中心/会员管理/会员卡/作废.png" alt="会员卡作废" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/会员卡/作废.png">
+  </button>
+  <figcaption>会员卡作废</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="228">
+  <button class="screenshot-open" type="button" aria-label="查看截图：会员卡数据导出">
+    <img src="screenshot/运营中心/会员管理/会员卡/数据导出.png" alt="会员卡数据导出" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/会员卡/数据导出.png">
+  </button>
+  <figcaption>会员卡数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="229">
+  <button class="screenshot-open" type="button" aria-label="查看截图：模板卡">
+    <img src="screenshot/运营中心/会员管理/模板卡/模板卡.png" alt="模板卡" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/模板卡/模板卡.png">
+  </button>
+  <figcaption>模板卡</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="230">
+  <button class="screenshot-open" type="button" aria-label="查看截图：模板卡卡类型">
+    <img src="screenshot/运营中心/会员管理/模板卡/模板卡-卡类型.png" alt="模板卡卡类型" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/模板卡/模板卡-卡类型.png">
+  </button>
+  <figcaption>模板卡卡类型</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="231">
+  <button class="screenshot-open" type="button" aria-label="查看截图：创建会员卡模板">
+    <img src="screenshot/运营中心/会员管理/模板卡/创建-会员卡.png" alt="创建会员卡模板" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/模板卡/创建-会员卡.png">
+  </button>
+  <figcaption>创建会员卡模板</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="232">
+  <button class="screenshot-open" type="button" aria-label="查看截图：创建时长卡模板">
+    <img src="screenshot/运营中心/会员管理/模板卡/创建-时长卡.png" alt="创建时长卡模板" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/模板卡/创建-时长卡.png">
+  </button>
+  <figcaption>创建时长卡模板</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="233">
+  <button class="screenshot-open" type="button" aria-label="查看截图：创建次数卡模板">
+    <img src="screenshot/运营中心/会员管理/模板卡/创建-次数卡.png" alt="创建次数卡模板" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/模板卡/创建-次数卡.png">
+  </button>
+  <figcaption>创建次数卡模板</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="234">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑模板卡">
+    <img src="screenshot/运营中心/会员管理/模板卡/编辑.png" alt="编辑模板卡" loading="lazy" decoding="async" data-full="screenshot/运营中心/会员管理/模板卡/编辑.png">
+  </button>
+  <figcaption>编辑模板卡</figcaption>
+</figure>
+
+<h3 id="sec-5-5"><a class="heading-anchor" href="#sec-5-5">5.5 优惠券管理</a></h3>
+<p>优惠券管理包含优惠券列表、领取记录和兑换码列表。优惠券列表页面显示支持新建优惠券、查看优惠券详情；领取记录页面可按券状态查看领取情况；兑换码列表页面用于查看兑换码数据。</p>
+<figure class="screenshot-card" data-screenshot="235">
+  <button class="screenshot-open" type="button" aria-label="查看截图：优惠券列表">
+    <img src="screenshot/运营中心/优惠券管理/优惠券列表/优惠券列表.png" alt="优惠券列表" loading="lazy" decoding="async" data-full="screenshot/运营中心/优惠券管理/优惠券列表/优惠券列表.png">
+  </button>
+  <figcaption>优惠券列表</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="236">
+  <button class="screenshot-open" type="button" aria-label="查看截图：新建优惠券">
+    <img src="screenshot/运营中心/优惠券管理/优惠券列表/新建优惠券.png" alt="新建优惠券" loading="lazy" decoding="async" data-full="screenshot/运营中心/优惠券管理/优惠券列表/新建优惠券.png">
+  </button>
+  <figcaption>新建优惠券</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="237">
+  <button class="screenshot-open" type="button" aria-label="查看截图：新建优惠券补充">
+    <img src="screenshot/运营中心/优惠券管理/优惠券列表/新建优惠券-2.png" alt="新建优惠券补充" loading="lazy" decoding="async" data-full="screenshot/运营中心/优惠券管理/优惠券列表/新建优惠券-2.png">
+  </button>
+  <figcaption>新建优惠券补充</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="238">
+  <button class="screenshot-open" type="button" aria-label="查看截图：优惠券详情">
+    <img src="screenshot/运营中心/优惠券管理/优惠券列表/优惠券详情.png" alt="优惠券详情" loading="lazy" decoding="async" data-full="screenshot/运营中心/优惠券管理/优惠券列表/优惠券详情.png">
+  </button>
+  <figcaption>优惠券详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="239">
+  <button class="screenshot-open" type="button" aria-label="查看截图：领取记录">
+    <img src="screenshot/运营中心/优惠券管理/领取记录/领取记录.png" alt="领取记录" loading="lazy" decoding="async" data-full="screenshot/运营中心/优惠券管理/领取记录/领取记录.png">
+  </button>
+  <figcaption>领取记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="240">
+  <button class="screenshot-open" type="button" aria-label="查看截图：领取记录券状态">
+    <img src="screenshot/运营中心/优惠券管理/领取记录/券状态.png" alt="领取记录券状态" loading="lazy" decoding="async" data-full="screenshot/运营中心/优惠券管理/领取记录/券状态.png">
+  </button>
+  <figcaption>领取记录券状态</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="241">
+  <button class="screenshot-open" type="button" aria-label="查看截图：兑换码列表">
+    <img src="screenshot/运营中心/优惠券管理/兑换码列表/兑换码列表.png" alt="兑换码列表" loading="lazy" decoding="async" data-full="screenshot/运营中心/优惠券管理/兑换码列表/兑换码列表.png">
+  </button>
+  <figcaption>兑换码列表</figcaption>
+</figure>
+
+<h3 id="sec-5-6"><a class="heading-anchor" href="#sec-5-6">5.6 发票管理</a></h3>
+<p>发票管理包含发票列表、购方抬头列表和销方抬头列表。发票列表用于查看发票数据；购方抬头列表用于查看购方开票抬头；销方抬头列表用于查看或维护销方抬头。具体开票流程和税控规则页面未体现。</p>
+<figure class="screenshot-card" data-screenshot="242">
+  <button class="screenshot-open" type="button" aria-label="查看截图：发票列表">
+    <img src="screenshot/运营中心/发票管理/发票列表/发票列表.png" alt="发票列表" loading="lazy" decoding="async" data-full="screenshot/运营中心/发票管理/发票列表/发票列表.png">
+  </button>
+  <figcaption>发票列表</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="243">
+  <button class="screenshot-open" type="button" aria-label="查看截图：购方抬头列表">
+    <img src="screenshot/运营中心/发票管理/购方抬头列表/购方抬头列表.png" alt="购方抬头列表" loading="lazy" decoding="async" data-full="screenshot/运营中心/发票管理/购方抬头列表/购方抬头列表.png">
+  </button>
+  <figcaption>购方抬头列表</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="244">
+  <button class="screenshot-open" type="button" aria-label="查看截图：销方抬头列表">
+    <img src="screenshot/运营中心/发票管理/销方抬头列表/销方抬头列表.png" alt="销方抬头列表" loading="lazy" decoding="async" data-full="screenshot/运营中心/发票管理/销方抬头列表/销方抬头列表.png">
+  </button>
+  <figcaption>销方抬头列表</figcaption>
+</figure>
+
+<h3 id="sec-5-7"><a class="heading-anchor" href="#sec-5-7">5.7 白名单管理</a></h3>
+<p>白名单管理包含车牌列表和申请列表。车牌列表页面显示支持添加白名单车牌、数据导出和导出来源选择；申请列表页面用于查看白名单申请，并可进入申请详情。</p>
+<figure class="screenshot-card" data-screenshot="245">
+  <button class="screenshot-open" type="button" aria-label="查看截图：白名单车牌管理">
+    <img src="screenshot/运营中心/白名单管理/车牌列表/车牌管理.png" alt="白名单车牌管理" loading="lazy" decoding="async" data-full="screenshot/运营中心/白名单管理/车牌列表/车牌管理.png">
+  </button>
+  <figcaption>白名单车牌管理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="246">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加白名单车牌">
+    <img src="screenshot/运营中心/白名单管理/车牌列表/添加.png" alt="添加白名单车牌" loading="lazy" decoding="async" data-full="screenshot/运营中心/白名单管理/车牌列表/添加.png">
+  </button>
+  <figcaption>添加白名单车牌</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="247">
+  <button class="screenshot-open" type="button" aria-label="查看截图：白名单车牌数据导出">
+    <img src="screenshot/运营中心/白名单管理/车牌列表/数据导出.png" alt="白名单车牌数据导出" loading="lazy" decoding="async" data-full="screenshot/运营中心/白名单管理/车牌列表/数据导出.png">
+  </button>
+  <figcaption>白名单车牌数据导出</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="248">
+  <button class="screenshot-open" type="button" aria-label="查看截图：白名单车牌导出来源">
+    <img src="screenshot/运营中心/白名单管理/车牌列表/数据导出来源.png" alt="白名单车牌导出来源" loading="lazy" decoding="async" data-full="screenshot/运营中心/白名单管理/车牌列表/数据导出来源.png">
+  </button>
+  <figcaption>白名单车牌导出来源</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="249">
+  <button class="screenshot-open" type="button" aria-label="查看截图：白名单申请列表">
+    <img src="screenshot/运营中心/白名单管理/申请列表/申请列表.png" alt="白名单申请列表" loading="lazy" decoding="async" data-full="screenshot/运营中心/白名单管理/申请列表/申请列表.png">
+  </button>
+  <figcaption>白名单申请列表</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="250">
+  <button class="screenshot-open" type="button" aria-label="查看截图：白名单申请详情">
+    <img src="screenshot/运营中心/白名单管理/申请列表/申请详情.png" alt="白名单申请详情" loading="lazy" decoding="async" data-full="screenshot/运营中心/白名单管理/申请列表/申请详情.png">
+  </button>
+  <figcaption>白名单申请详情</figcaption>
+</figure>
+
+</section>
+<section class="chapter" id="sec-6-chapter">
+<h2 id="sec-6"><a class="heading-anchor" href="#sec-6">6. 系统中心</a></h2>
+<p>系统中心用于维护商户接入、支付商户、系统用户、接口凭证、平台参数、通知配置、日志和开发工具。页面显示，左侧菜单包含系统配置、商户配置、系统用户、系统日志和系统工具等分组。</p>
+<h3 id="sec-6-1"><a class="heading-anchor" href="#sec-6-1">6.1 商户配置</a></h3>
+<p>商户配置用于查看服务商、企业、配置状态、自动对账、创建时间、最后更新时间等商户配置数据。截图显示管理员视图和普通用户视图的可见范围不同；列表操作区提供检查、刷新等入口。检查操作会弹出“检查配置状态”确认框，提示检查后会更新商户的配置状态；刷新操作会弹出支付客户端类型选择，可见选项包含支付宝和微信。</p>
+<figure class="screenshot-card" data-screenshot="251">
+  <button class="screenshot-open" type="button" aria-label="查看截图：商户配置管理员">
+    <img src="screenshot/系统中心/商户配置/商户配置/商户配置-管理员.png" alt="商户配置管理员" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/商户配置/商户配置-管理员.png">
+  </button>
+  <figcaption>商户配置管理员</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="252">
+  <button class="screenshot-open" type="button" aria-label="查看截图：商户配置普通用户">
+    <img src="screenshot/系统中心/商户配置/商户配置/商户配置-普通用户.png" alt="商户配置普通用户" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/商户配置/商户配置-普通用户.png">
+  </button>
+  <figcaption>商户配置普通用户</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="253">
+  <button class="screenshot-open" type="button" aria-label="查看截图：商户配置详情">
+    <img src="screenshot/系统中心/商户配置/商户配置/商户配置-列表详情.png" alt="商户配置详情" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/商户配置/商户配置-列表详情.png">
+  </button>
+  <figcaption>商户配置详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="254">
+  <button class="screenshot-open" type="button" aria-label="查看截图：商户配置检查">
+    <img src="screenshot/系统中心/商户配置/商户配置/检查.png" alt="商户配置检查" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/商户配置/检查.png">
+  </button>
+  <figcaption>商户配置检查</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="255">
+  <button class="screenshot-open" type="button" aria-label="查看截图：商户配置刷新">
+    <img src="screenshot/系统中心/商户配置/商户配置/刷新.png" alt="商户配置刷新" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/商户配置/刷新.png">
+  </button>
+  <figcaption>商户配置刷新</figcaption>
+</figure>
+
+<p>支付商户页面用于维护收款相关商户。列表页可查看支付商户数据，并提供添加支付商户入口。控制面板页面显示支付渠道、启用状态、配置完整状态、文件标识、最后操作、商户描述等信息；页面还显示支付配置和证书文件上传区域。截图中可见证书文件缺失提示和多个上传按钮，但证书生成、校验和启用规则未在页面中完整展示。</p>
+<figure class="screenshot-card" data-screenshot="256">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付商户">
+    <img src="screenshot/系统中心/商户配置/支付商户/支付商户.png" alt="支付商户" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/支付商户/支付商户.png">
+  </button>
+  <figcaption>支付商户</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="257">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加支付商户">
+    <img src="screenshot/系统中心/商户配置/支付商户/添加支付商户.png" alt="添加支付商户" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/支付商户/添加支付商户.png">
+  </button>
+  <figcaption>添加支付商户</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="258">
+  <button class="screenshot-open" type="button" aria-label="查看截图：支付商户控制面板">
+    <img src="screenshot/系统中心/商户配置/支付商户/控制面板.png" alt="支付商户控制面板" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/支付商户/控制面板.png">
+  </button>
+  <figcaption>支付商户控制面板</figcaption>
+</figure>
+
+<p>入驻申请页面用于查看商户入驻申请。详情页显示当前申请单状态、申请单号、最后更新时间、商户主体、企业信息、法人信息、经营结算、经营信息、结算信息、超管信息、工作流和审核意见。截图中可见“审核中”和“已完成”两类状态页面；审核页右侧显示工作流记录，并提供提交审核意见入口。具体审核条件、驳回规则和资料校验规则页面未完整展示。</p>
+<figure class="screenshot-card" data-screenshot="259">
+  <button class="screenshot-open" type="button" aria-label="查看截图：入驻申请">
+    <img src="screenshot/系统中心/商户配置/入驻申请/入驻申请.png" alt="入驻申请" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/入驻申请/入驻申请.png">
+  </button>
+  <figcaption>入驻申请</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="260">
+  <button class="screenshot-open" type="button" aria-label="查看截图：入驻申请查看审核">
+    <img src="screenshot/系统中心/商户配置/入驻申请/查看审核.png" alt="入驻申请查看审核" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/入驻申请/查看审核.png">
+  </button>
+  <figcaption>入驻申请查看审核</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="261">
+  <button class="screenshot-open" type="button" aria-label="查看截图：入驻申请已完成">
+    <img src="screenshot/系统中心/商户配置/入驻申请/已完成.png" alt="入驻申请已完成" loading="lazy" decoding="async" data-full="screenshot/系统中心/商户配置/入驻申请/已完成.png">
+  </button>
+  <figcaption>入驻申请已完成</figcaption>
+</figure>
+
+<h3 id="sec-6-2"><a class="heading-anchor" href="#sec-6-2">6.2 系统用户</a></h3>
+<p>系统用户包含用户列表和接口凭证。用户列表页面显示支持按用户账号、用户名称查询，并提供新建用户入口。表格字段包括所属提供商、所属公司、用户名称、用户账号、用户角色、创建时间、权限管理和操作；操作列可见详情、修改、删除。</p>
+<figure class="screenshot-card" data-screenshot="262">
+  <button class="screenshot-open" type="button" aria-label="查看截图：用户列表">
+    <img src="screenshot/系统中心/系统用户/用户列表/用户列表.png" alt="用户列表" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/用户列表.png">
+  </button>
+  <figcaption>用户列表</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="263">
+  <button class="screenshot-open" type="button" aria-label="查看截图：新建用户">
+    <img src="screenshot/系统中心/系统用户/用户列表/新建用户.png" alt="新建用户" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/新建用户.png">
+  </button>
+  <figcaption>新建用户</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="264">
+  <button class="screenshot-open" type="button" aria-label="查看截图：用户角色">
+    <img src="screenshot/系统中心/系统用户/用户列表/用户角色.png" alt="用户角色" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/用户角色.png">
+  </button>
+  <figcaption>用户角色</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="265">
+  <button class="screenshot-open" type="button" aria-label="查看截图：用户详情">
+    <img src="screenshot/系统中心/系统用户/用户列表/详情.png" alt="用户详情" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/详情.png">
+  </button>
+  <figcaption>用户详情</figcaption>
+</figure>
+
+<p>权限管理页面用于给用户分配可访问模块和可执行动作。截图显示权限按业务区域分组，包括系统配置、商户配置、系统用户、系统日志、系统工具、批量任务、封闭车场等；模块下可见查看、创建、修改、删除、导出、导入、绑定、配置、操作等权限项。部分经营报表模块提供字段配置入口，字段配置弹窗可在显示字段和隐藏字段之间调整，例如当日营收、历史营收、车场当日营收和车场历史营收。</p>
+<figure class="screenshot-card" data-screenshot="266">
+  <button class="screenshot-open" type="button" aria-label="查看截图：权限管理">
+    <img src="screenshot/系统中心/系统用户/用户列表/权限管理.png" alt="权限管理" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/权限管理.png">
+  </button>
+  <figcaption>权限管理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="267">
+  <button class="screenshot-open" type="button" aria-label="查看截图：权限管理模块权限">
+    <img src="screenshot/系统中心/系统用户/用户列表/权限管理-2.png" alt="权限管理模块权限" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/权限管理-2.png">
+  </button>
+  <figcaption>权限管理模块权限</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="268">
+  <button class="screenshot-open" type="button" aria-label="查看截图：当日营收字段配置">
+    <img src="screenshot/系统中心/系统用户/用户列表/当日营收-字段配置.png" alt="当日营收字段配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/当日营收-字段配置.png">
+  </button>
+  <figcaption>当日营收字段配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="269">
+  <button class="screenshot-open" type="button" aria-label="查看截图：历史营收字段配置">
+    <img src="screenshot/系统中心/系统用户/用户列表/历史营收-字段配置.png" alt="历史营收字段配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/历史营收-字段配置.png">
+  </button>
+  <figcaption>历史营收字段配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="270">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场当日营收字段配置">
+    <img src="screenshot/系统中心/系统用户/用户列表/车场当日营收-字段配置.png" alt="车场当日营收字段配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/车场当日营收-字段配置.png">
+  </button>
+  <figcaption>车场当日营收字段配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="271">
+  <button class="screenshot-open" type="button" aria-label="查看截图：车场历史营收字段配置">
+    <img src="screenshot/系统中心/系统用户/用户列表/车场历史营收-字段配置.png" alt="车场历史营收字段配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/用户列表/车场历史营收-字段配置.png">
+  </button>
+  <figcaption>车场历史营收字段配置</figcaption>
+</figure>
+
+<p>接口凭证页面用于管理对接凭证。页面显示提供添加、详情、编辑和删除入口；删除操作以确认弹窗形式出现。截图可见凭证详情弹窗和编辑弹窗，但凭证适用接口范围、密钥轮换规则和权限边界页面未完整展示。</p>
+<figure class="screenshot-card" data-screenshot="272">
+  <button class="screenshot-open" type="button" aria-label="查看截图：接口凭证">
+    <img src="screenshot/系统中心/系统用户/接口凭证/接口凭证.png" alt="接口凭证" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/接口凭证/接口凭证.png">
+  </button>
+  <figcaption>接口凭证</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="273">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加接口凭证">
+    <img src="screenshot/系统中心/系统用户/接口凭证/添加.png" alt="添加接口凭证" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/接口凭证/添加.png">
+  </button>
+  <figcaption>添加接口凭证</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="274">
+  <button class="screenshot-open" type="button" aria-label="查看截图：接口凭证详情">
+    <img src="screenshot/系统中心/系统用户/接口凭证/详情.png" alt="接口凭证详情" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/接口凭证/详情.png">
+  </button>
+  <figcaption>接口凭证详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="275">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑接口凭证">
+    <img src="screenshot/系统中心/系统用户/接口凭证/编辑.png" alt="编辑接口凭证" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/接口凭证/编辑.png">
+  </button>
+  <figcaption>编辑接口凭证</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="276">
+  <button class="screenshot-open" type="button" aria-label="查看截图：删除接口凭证">
+    <img src="screenshot/系统中心/系统用户/接口凭证/删除.png" alt="删除接口凭证" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统用户/接口凭证/删除.png">
+  </button>
+  <figcaption>删除接口凭证</figcaption>
+</figure>
+
+<h3 id="sec-6-3"><a class="heading-anchor" href="#sec-6-3">6.3 系统配置</a></h3>
+<p>系统配置包含平台参数、业务规则、通知模板、终端配置、服务提供商和应用包等页面。以下内容均按截图中可见字段、页签和按钮整理；配置修改后的后台生效条件、影响范围和风险边界未在截图中完整展示。</p>
+<div class="table-wrap"><table><thead><tr><th>页面</th><th>可见功能说明</th></tr></thead><tbody><tr><td>统计区间</td><td>查看或维护统计区间配置。</td></tr><tr><td>滞纳金配置</td><td>查看或维护滞纳金相关配置。</td></tr><tr><td>追缴配置</td><td>查看追缴配置，支持检查和配置入口。配置弹窗包含所属公司、追缴平台、是否启用、触发天数、金额范围、推送日期、推送时间、推送地址、ApiKey、ApiSecret、自定义参数等字段。</td></tr><tr><td>订单配置</td><td>包含订单管理和异常订单。异常订单配置页面显示全局开关、异常类型开关、异常订单过期时间和配置说明。</td></tr><tr><td>公告管理</td><td>查看公告列表，支持添加公告、查看详情、修改公告。</td></tr><tr><td>广告投放</td><td>维护广告配置。</td></tr><tr><td>文件存储</td><td>查看配置列表，支持配置和编辑。</td></tr></tbody></table></div>
+<figure class="screenshot-card" data-screenshot="277">
+  <button class="screenshot-open" type="button" aria-label="查看截图：统计区间">
+    <img src="screenshot/系统中心/系统配置/统计区间/统计区间.png" alt="统计区间" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/统计区间/统计区间.png">
+  </button>
+  <figcaption>统计区间</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="278">
+  <button class="screenshot-open" type="button" aria-label="查看截图：滞纳金配置">
+    <img src="screenshot/系统中心/系统配置/滞纳金配置/滞纳金配置.png" alt="滞纳金配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/滞纳金配置/滞纳金配置.png">
+  </button>
+  <figcaption>滞纳金配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="279">
+  <button class="screenshot-open" type="button" aria-label="查看截图：追缴配置">
+    <img src="screenshot/系统中心/系统配置/追缴配置/追缴配置.png" alt="追缴配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/追缴配置/追缴配置.png">
+  </button>
+  <figcaption>追缴配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="280">
+  <button class="screenshot-open" type="button" aria-label="查看截图：配置追缴">
+    <img src="screenshot/系统中心/系统配置/追缴配置/配置.png" alt="配置追缴" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/追缴配置/配置.png">
+  </button>
+  <figcaption>配置追缴</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="281">
+  <button class="screenshot-open" type="button" aria-label="查看截图：检查追缴">
+    <img src="screenshot/系统中心/系统配置/追缴配置/检查.png" alt="检查追缴" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/追缴配置/检查.png">
+  </button>
+  <figcaption>检查追缴</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="282">
+  <button class="screenshot-open" type="button" aria-label="查看截图：订单配置">
+    <img src="screenshot/系统中心/系统配置/订单配置/订单管理.png" alt="订单配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/订单配置/订单管理.png">
+  </button>
+  <figcaption>订单配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="283">
+  <button class="screenshot-open" type="button" aria-label="查看截图：异常订单配置">
+    <img src="screenshot/系统中心/系统配置/订单配置/异常订单.png" alt="异常订单配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/订单配置/异常订单.png">
+  </button>
+  <figcaption>异常订单配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="284">
+  <button class="screenshot-open" type="button" aria-label="查看截图：公告管理">
+    <img src="screenshot/系统中心/系统配置/公告管理/公告管理.png" alt="公告管理" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/公告管理/公告管理.png">
+  </button>
+  <figcaption>公告管理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="285">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加公告">
+    <img src="screenshot/系统中心/系统配置/公告管理/添加公告.png" alt="添加公告" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/公告管理/添加公告.png">
+  </button>
+  <figcaption>添加公告</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="286">
+  <button class="screenshot-open" type="button" aria-label="查看截图：修改公告">
+    <img src="screenshot/系统中心/系统配置/公告管理/修改.png" alt="修改公告" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/公告管理/修改.png">
+  </button>
+  <figcaption>修改公告</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="287">
+  <button class="screenshot-open" type="button" aria-label="查看截图：公告详情">
+    <img src="screenshot/系统中心/系统配置/公告管理/详情.png" alt="公告详情" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/公告管理/详情.png">
+  </button>
+  <figcaption>公告详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="288">
+  <button class="screenshot-open" type="button" aria-label="查看截图：广告配置">
+    <img src="screenshot/系统中心/系统配置/广告投放/广告配置.png" alt="广告配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/广告投放/广告配置.png">
+  </button>
+  <figcaption>广告配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="289">
+  <button class="screenshot-open" type="button" aria-label="查看截图：文件存储配置">
+    <img src="screenshot/系统中心/系统配置/文件存储/配置列表.png" alt="文件存储配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/文件存储/配置列表.png">
+  </button>
+  <figcaption>文件存储配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="290">
+  <button class="screenshot-open" type="button" aria-label="查看截图：文件存储配置弹窗">
+    <img src="screenshot/系统中心/系统配置/文件存储/配置.png" alt="文件存储配置弹窗" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/文件存储/配置.png">
+  </button>
+  <figcaption>文件存储配置弹窗</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="291">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑文件存储">
+    <img src="screenshot/系统中心/系统配置/文件存储/编辑.png" alt="编辑文件存储" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/文件存储/编辑.png">
+  </button>
+  <figcaption>编辑文件存储</figcaption>
+</figure>
+
+<p>服务提供商页面用于维护提供商管理数据。列表显示提供商 ID、提供商名称、平台域名、服务商户号、服务商证书/私钥、创建时间和操作。添加提供商弹窗包含基础配置、微信服务商配置、号码认证配置和微信登录配置；列表操作可见详情、上传、刷新、测试、投诉回调设置。上传弹窗用于上传 <code>apiclient_cert.pem</code> 和 <code>apiclient_key.pem</code>；测试弹窗用于执行投诉回调查询接口测试并显示测试结果；投诉回调设置会提示重设原有地址可能导致无法接收相关数据。</p>
+<figure class="screenshot-card" data-screenshot="292">
+  <button class="screenshot-open" type="button" aria-label="查看截图：服务提供商">
+    <img src="screenshot/系统中心/系统配置/服务提供商/提供商管理.png" alt="服务提供商" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/服务提供商/提供商管理.png">
+  </button>
+  <figcaption>服务提供商</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="293">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加服务提供商">
+    <img src="screenshot/系统中心/系统配置/服务提供商/添加提供商.png" alt="添加服务提供商" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/服务提供商/添加提供商.png">
+  </button>
+  <figcaption>添加服务提供商</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="294">
+  <button class="screenshot-open" type="button" aria-label="查看截图：服务提供商详情">
+    <img src="screenshot/系统中心/系统配置/服务提供商/详情.png" alt="服务提供商详情" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/服务提供商/详情.png">
+  </button>
+  <figcaption>服务提供商详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="295">
+  <button class="screenshot-open" type="button" aria-label="查看截图：上传服务商证书文件">
+    <img src="screenshot/系统中心/系统配置/服务提供商/上传.png" alt="上传服务商证书文件" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/服务提供商/上传.png">
+  </button>
+  <figcaption>上传服务商证书文件</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="296">
+  <button class="screenshot-open" type="button" aria-label="查看截图：刷新服务提供商">
+    <img src="screenshot/系统中心/系统配置/服务提供商/刷新.png" alt="刷新服务提供商" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/服务提供商/刷新.png">
+  </button>
+  <figcaption>刷新服务提供商</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="297">
+  <button class="screenshot-open" type="button" aria-label="查看截图：测试服务提供商">
+    <img src="screenshot/系统中心/系统配置/服务提供商/测试.png" alt="测试服务提供商" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/服务提供商/测试.png">
+  </button>
+  <figcaption>测试服务提供商</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="298">
+  <button class="screenshot-open" type="button" aria-label="查看截图：服务提供商测试结果">
+    <img src="screenshot/系统中心/系统配置/服务提供商/测试结果.png" alt="服务提供商测试结果" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/服务提供商/测试结果.png">
+  </button>
+  <figcaption>服务提供商测试结果</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="299">
+  <button class="screenshot-open" type="button" aria-label="查看截图：投诉回调设置">
+    <img src="screenshot/系统中心/系统配置/服务提供商/投诉回调设置.png" alt="投诉回调设置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/服务提供商/投诉回调设置.png">
+  </button>
+  <figcaption>投诉回调设置</figcaption>
+</figure>
+
+<p>消息通知页面包含微信小程序消息、微信公众号消息、短信用户配置和短信模板消息等页签。短信模板消息下可见签名管理、模板管理、发送记录和发送统计；签名和模板页提供申请、添加、详情、测试等入口；发送记录支持按手机号码、模板名称、发送时间查询，并可进入发送详情；短信用户配置支持添加用户和配置模板。截图中仅体现配置项和查询入口，不展开短信服务商审核规则或发送失败处理规则。</p>
+<figure class="screenshot-card" data-screenshot="300">
+  <button class="screenshot-open" type="button" aria-label="查看截图：消息通知微信公众号">
+    <img src="screenshot/系统中心/系统配置/消息通知/微信公众号消息-1.png" alt="消息通知微信公众号" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/微信公众号消息-1.png">
+  </button>
+  <figcaption>消息通知微信公众号</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="301">
+  <button class="screenshot-open" type="button" aria-label="查看截图：微信公众号消息列表">
+    <img src="screenshot/系统中心/系统配置/消息通知/微信公众号消息-2.png" alt="微信公众号消息列表" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/微信公众号消息-2.png">
+  </button>
+  <figcaption>微信公众号消息列表</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="302">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑微信公众号消息">
+    <img src="screenshot/系统中心/系统配置/消息通知/微信公众号消息-编辑.png" alt="编辑微信公众号消息" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/微信公众号消息-编辑.png">
+  </button>
+  <figcaption>编辑微信公众号消息</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="303">
+  <button class="screenshot-open" type="button" aria-label="查看截图：调试微信公众号消息">
+    <img src="screenshot/系统中心/系统配置/消息通知/微信公众号消息-调试.png" alt="调试微信公众号消息" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/微信公众号消息-调试.png">
+  </button>
+  <figcaption>调试微信公众号消息</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="304">
+  <button class="screenshot-open" type="button" aria-label="查看截图：消息通知微信小程序">
+    <img src="screenshot/系统中心/系统配置/消息通知/微信小程序消息.png" alt="消息通知微信小程序" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/微信小程序消息.png">
+  </button>
+  <figcaption>消息通知微信小程序</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="305">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑微信小程序消息">
+    <img src="screenshot/系统中心/系统配置/消息通知/微信小程序消息-编辑.png" alt="编辑微信小程序消息" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/微信小程序消息-编辑.png">
+  </button>
+  <figcaption>编辑微信小程序消息</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="306">
+  <button class="screenshot-open" type="button" aria-label="查看截图：短信用户配置列表">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信用户配置-列表.png" alt="短信用户配置列表" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信用户配置-列表.png">
+  </button>
+  <figcaption>短信用户配置列表</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="307">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加短信用户">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信用户配置-添加用户.png" alt="添加短信用户" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信用户配置-添加用户.png">
+  </button>
+  <figcaption>添加短信用户</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="308">
+  <button class="screenshot-open" type="button" aria-label="查看截图：配置短信用户">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信用户配置-配置.png" alt="配置短信用户" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信用户配置-配置.png">
+  </button>
+  <figcaption>配置短信用户</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="309">
+  <button class="screenshot-open" type="button" aria-label="查看截图：短信签名管理">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-签名管理.png" alt="短信签名管理" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-签名管理.png">
+  </button>
+  <figcaption>短信签名管理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="310">
+  <button class="screenshot-open" type="button" aria-label="查看截图：申请短信签名">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-签名管理-申请签名.png" alt="申请短信签名" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-签名管理-申请签名.png">
+  </button>
+  <figcaption>申请短信签名</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="311">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加短信签名">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-签名管理-添加签名.png" alt="添加短信签名" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-签名管理-添加签名.png">
+  </button>
+  <figcaption>添加短信签名</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="312">
+  <button class="screenshot-open" type="button" aria-label="查看截图：短信模板管理">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理.png" alt="短信模板管理" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理.png">
+  </button>
+  <figcaption>短信模板管理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="313">
+  <button class="screenshot-open" type="button" aria-label="查看截图：申请短信模板">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理-申请模板.png" alt="申请短信模板" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理-申请模板.png">
+  </button>
+  <figcaption>申请短信模板</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="314">
+  <button class="screenshot-open" type="button" aria-label="查看截图：添加短信模板">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理-添加模板.png" alt="添加短信模板" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理-添加模板.png">
+  </button>
+  <figcaption>添加短信模板</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="315">
+  <button class="screenshot-open" type="button" aria-label="查看截图：短信模板详情">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理-详情.png" alt="短信模板详情" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理-详情.png">
+  </button>
+  <figcaption>短信模板详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="316">
+  <button class="screenshot-open" type="button" aria-label="查看截图：测试短信模板">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理-测试.png" alt="测试短信模板" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-模板管理-测试.png">
+  </button>
+  <figcaption>测试短信模板</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="317">
+  <button class="screenshot-open" type="button" aria-label="查看截图：短信发送记录">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-发送记录.png" alt="短信发送记录" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-发送记录.png">
+  </button>
+  <figcaption>短信发送记录</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="318">
+  <button class="screenshot-open" type="button" aria-label="查看截图：短信发送记录详情">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-发送记录-详情.png" alt="短信发送记录详情" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-发送记录-详情.png">
+  </button>
+  <figcaption>短信发送记录详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="319">
+  <button class="screenshot-open" type="button" aria-label="查看截图：短信发送数据详情">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-发送记录-短信发送数据详情.png" alt="短信发送数据详情" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-发送记录-短信发送数据详情.png">
+  </button>
+  <figcaption>短信发送数据详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="320">
+  <button class="screenshot-open" type="button" aria-label="查看截图：短信发送统计">
+    <img src="screenshot/系统中心/系统配置/消息通知/短信模板消息-发送统计.png" alt="短信发送统计" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/消息通知/短信模板消息-发送统计.png">
+  </button>
+  <figcaption>短信发送统计</figcaption>
+</figure>
+
+<p>收费终端配置包含泊位配置、小票配置和其他配置。泊位配置可设置泊位颜色、时间段颜色规则和泊位图标显示；小票配置可设置小票标题、LOGO、收费单位、收费二维码、查询参数、客服信息、打印字段顺序，并显示小票预览；其他配置可设置是否启用排班、订单合并、电子围栏、上报间隔、离线时间、超时通知和人工巡检等参数。截图提示，小票配置中部分变更需要收费员重新登录后生效。</p>
+<figure class="screenshot-card" data-screenshot="321">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费终端配置">
+    <img src="screenshot/系统中心/系统配置/收费终端/收费终端配置-泊位配置.png" alt="收费终端配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/收费终端/收费终端配置-泊位配置.png">
+  </button>
+  <figcaption>收费终端配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="322">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费终端小票配置">
+    <img src="screenshot/系统中心/系统配置/收费终端/收费终端配置-小票配置.png" alt="收费终端小票配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/收费终端/收费终端配置-小票配置.png">
+  </button>
+  <figcaption>收费终端小票配置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="323">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费终端小票配置补充">
+    <img src="screenshot/系统中心/系统配置/收费终端/收费终端配置-小票配置补充.png" alt="收费终端小票配置补充" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/收费终端/收费终端配置-小票配置补充.png">
+  </button>
+  <figcaption>收费终端小票配置补充</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="324">
+  <button class="screenshot-open" type="button" aria-label="查看截图：收费终端其他配置">
+    <img src="screenshot/系统中心/系统配置/收费终端/收费终端配置-其他配置.png" alt="收费终端其他配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/收费终端/收费终端配置-其他配置.png">
+  </button>
+  <figcaption>收费终端其他配置</figcaption>
+</figure>
+
+<p>系统设置包含前端配置和邮件配置。邮件配置页可见 SMTP 服务器、SMTP 端口、邮箱名称、邮箱账号、授权码、测试邮箱、发送测试邮件、重置和保存等字段或按钮。</p>
+<figure class="screenshot-card" data-screenshot="325">
+  <button class="screenshot-open" type="button" aria-label="查看截图：系统设置">
+    <img src="screenshot/系统中心/系统配置/系统设置/系统设置.png" alt="系统设置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/系统设置/系统设置.png">
+  </button>
+  <figcaption>系统设置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="326">
+  <button class="screenshot-open" type="button" aria-label="查看截图：邮件配置">
+    <img src="screenshot/系统中心/系统配置/系统设置/邮件配置.png" alt="邮件配置" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/系统设置/邮件配置.png">
+  </button>
+  <figcaption>邮件配置</figcaption>
+</figure>
+
+<p>ETC 助缴包含 ETC 配置和 ETC 推送记录。推送记录页面支持按订单编号、车牌号码、ETC 流水号、开始时间、结束时间、状态查询，表格字段包含订单编号、车牌号码、金额、ETC 流水号、ETC 平台、驶入时间、驶出时间、推送时间、状态、状态变化时间和操作。</p>
+<figure class="screenshot-card" data-screenshot="327">
+  <button class="screenshot-open" type="button" aria-label="查看截图：ETC 助缴">
+    <img src="screenshot/系统中心/系统配置/ETC 助缴/ETC 助缴.png" alt="ETC 助缴" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/ETC 助缴/ETC 助缴.png">
+  </button>
+  <figcaption>ETC 助缴</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="328">
+  <button class="screenshot-open" type="button" aria-label="查看截图：ETC 推送记录">
+    <img src="screenshot/系统中心/系统配置/ETC 助缴/ETC 推送记录.png" alt="ETC 推送记录" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/ETC 助缴/ETC 推送记录.png">
+  </button>
+  <figcaption>ETC 推送记录</figcaption>
+</figure>
+
+<p>APK 管理用于查看和维护应用安装包。列表页面可见所属企业、包名、版本、包状态、最新版、版本说明、下载地址和操作；上传包弹窗包含所属企业、版本号、包类型、包状态、是否为最新版本、版本描述和上传文件；包状态选项截图可见已开放、待开放和已下架。</p>
+<figure class="screenshot-card" data-screenshot="329">
+  <button class="screenshot-open" type="button" aria-label="查看截图：APK 管理">
+    <img src="screenshot/系统中心/系统配置/APK 管理/APK 管理.png" alt="APK 管理" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/APK 管理/APK 管理.png">
+  </button>
+  <figcaption>APK 管理</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="330">
+  <button class="screenshot-open" type="button" aria-label="查看截图：上传 APK 包">
+    <img src="screenshot/系统中心/系统配置/APK 管理/上传包.png" alt="上传 APK 包" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/APK 管理/上传包.png">
+  </button>
+  <figcaption>上传 APK 包</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="331">
+  <button class="screenshot-open" type="button" aria-label="查看截图：APK 包状态">
+    <img src="screenshot/系统中心/系统配置/APK 管理/包状态.png" alt="APK 包状态" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统配置/APK 管理/包状态.png">
+  </button>
+  <figcaption>APK 包状态</figcaption>
+</figure>
+
+<h3 id="sec-6-4"><a class="heading-anchor" href="#sec-6-4">6.4 系统日志与系统工具</a></h3>
+<p>系统日志包含操作日志和操作类型页面，用于查看系统操作记录和操作分类。截图显示操作类型有多个页签或状态截图。系统工具包含开发工具-地磁、开发工具-巡检车、开发工具-视频设备等页面，用于设备相关调试或开发辅助；具体调试参数以页面实际字段为准。</p>
+<figure class="screenshot-card" data-screenshot="332">
+  <button class="screenshot-open" type="button" aria-label="查看截图：系统操作日志">
+    <img src="screenshot/系统中心/系统日志/操作日志.png" alt="系统操作日志" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统日志/操作日志.png">
+  </button>
+  <figcaption>系统操作日志</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="333">
+  <button class="screenshot-open" type="button" aria-label="查看截图：操作类型 1">
+    <img src="screenshot/系统中心/系统日志/操作类型 1.png" alt="操作类型 1" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统日志/操作类型 1.png">
+  </button>
+  <figcaption>操作类型 1</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="334">
+  <button class="screenshot-open" type="button" aria-label="查看截图：操作类型 2">
+    <img src="screenshot/系统中心/系统日志/操作类型 2.png" alt="操作类型 2" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统日志/操作类型 2.png">
+  </button>
+  <figcaption>操作类型 2</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="335">
+  <button class="screenshot-open" type="button" aria-label="查看截图：开发工具地磁">
+    <img src="screenshot/系统中心/系统工具/开发工具-地磁.png" alt="开发工具地磁" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统工具/开发工具-地磁.png">
+  </button>
+  <figcaption>开发工具地磁</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="336">
+  <button class="screenshot-open" type="button" aria-label="查看截图：开发工具巡检车">
+    <img src="screenshot/系统中心/系统工具/开发工具-巡检车.png" alt="开发工具巡检车" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统工具/开发工具-巡检车.png">
+  </button>
+  <figcaption>开发工具巡检车</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="337">
+  <button class="screenshot-open" type="button" aria-label="查看截图：开发工具视频设备">
+    <img src="screenshot/系统中心/系统工具/开发工具-视频设备.png" alt="开发工具视频设备" loading="lazy" decoding="async" data-full="screenshot/系统中心/系统工具/开发工具-视频设备.png">
+  </button>
+  <figcaption>开发工具视频设备</figcaption>
+</figure>
+
+</section>
+<section class="chapter" id="sec-7-chapter">
+<h2 id="sec-7"><a class="heading-anchor" href="#sec-7">7. 个人中心</a></h2>
+<p>个人中心包含个人信息、下载中心和批量任务。</p>
+<h3 id="sec-7-1"><a class="heading-anchor" href="#sec-7-1">7.1 个人信息</a></h3>
+<p>个人信息页面用于查看当前账号资料。页面显示提供更改个人信息和编辑发票信息入口。</p>
+<figure class="screenshot-card" data-screenshot="338">
+  <button class="screenshot-open" type="button" aria-label="查看截图：个人信息">
+    <img src="screenshot/个人中心/个人空间/个人信息/个人信息.png" alt="个人信息" loading="lazy" decoding="async" data-full="screenshot/个人中心/个人空间/个人信息/个人信息.png">
+  </button>
+  <figcaption>个人信息</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="339">
+  <button class="screenshot-open" type="button" aria-label="查看截图：更改个人信息">
+    <img src="screenshot/个人中心/个人空间/个人信息/更改个人信息.png" alt="更改个人信息" loading="lazy" decoding="async" data-full="screenshot/个人中心/个人空间/个人信息/更改个人信息.png">
+  </button>
+  <figcaption>更改个人信息</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="340">
+  <button class="screenshot-open" type="button" aria-label="查看截图：编辑发票信息">
+    <img src="screenshot/个人中心/个人空间/个人信息/编辑发票信息.png" alt="编辑发票信息" loading="lazy" decoding="async" data-full="screenshot/个人中心/个人空间/个人信息/编辑发票信息.png">
+  </button>
+  <figcaption>编辑发票信息</figcaption>
+</figure>
+
+<h3 id="sec-7-2"><a class="heading-anchor" href="#sec-7-2">7.2 下载中心</a></h3>
+<p>下载中心用于查看可下载资源。页面显示以列表形式展示下载项。</p>
+<figure class="screenshot-card" data-screenshot="341">
+  <button class="screenshot-open" type="button" aria-label="查看截图：下载中心">
+    <img src="screenshot/个人中心/个人空间/下载中心/下载中心.png" alt="下载中心" loading="lazy" decoding="async" data-full="screenshot/个人中心/个人空间/下载中心/下载中心.png">
+  </button>
+  <figcaption>下载中心</figcaption>
+</figure>
+
+<h3 id="sec-7-3"><a class="heading-anchor" href="#sec-7-3">7.3 批量任务</a></h3>
+<p>批量任务页面用于查看和创建批量处理任务。页面显示提供创建任务入口，并支持按任务类型筛选。具体任务执行结果和失败处理规则页面未完整展示。</p>
+<figure class="screenshot-card" data-screenshot="342">
+  <button class="screenshot-open" type="button" aria-label="查看截图：批量任务">
+    <img src="screenshot/个人中心/个人空间/批量任务/批量任务.png" alt="批量任务" loading="lazy" decoding="async" data-full="screenshot/个人中心/个人空间/批量任务/批量任务.png">
+  </button>
+  <figcaption>批量任务</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="343">
+  <button class="screenshot-open" type="button" aria-label="查看截图：创建批量任务">
+    <img src="screenshot/个人中心/个人空间/批量任务/创建任务.png" alt="创建批量任务" loading="lazy" decoding="async" data-full="screenshot/个人中心/个人空间/批量任务/创建任务.png">
+  </button>
+  <figcaption>创建批量任务</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="344">
+  <button class="screenshot-open" type="button" aria-label="查看截图：任务类型 1">
+    <img src="screenshot/个人中心/个人空间/批量任务/任务类型 1.png" alt="任务类型 1" loading="lazy" decoding="async" data-full="screenshot/个人中心/个人空间/批量任务/任务类型 1.png">
+  </button>
+  <figcaption>任务类型 1</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="345">
+  <button class="screenshot-open" type="button" aria-label="查看截图：任务类型 2">
+    <img src="screenshot/个人中心/个人空间/批量任务/任务类型 2.png" alt="任务类型 2" loading="lazy" decoding="async" data-full="screenshot/个人中心/个人空间/批量任务/任务类型 2.png">
+  </button>
+  <figcaption>任务类型 2</figcaption>
+</figure>
+
+</section>
+<section class="chapter" id="sec-8-chapter">
+<h2 id="sec-8"><a class="heading-anchor" href="#sec-8">8. 微信服务号相关操作截图</a></h2>
+<p>本组截图来自微信公众平台服务号页面，不属于停车收费系统后台内部菜单。截图显示的用途主要是登录服务号后台、进入内容管理、查看或处理草稿箱、查看账号信息以及下载二维码。本节只描述截图可见的外部平台操作入口，不说明微信公众号平台的审核、发布、权限和素材规则。</p>
+<h3 id="sec-8-1"><a class="heading-anchor" href="#sec-8-1">8.1 登录与账号信息</a></h3>
+<p>微信公众平台登录页显示扫码登录入口。登录后首页左侧包含首页、内容管理、互动管理、自动回复、自定义菜单、用户管理、号内搜索、数据分析、收入变现等入口；首页区域显示账号概况、新的创作和近期发表。账号菜单中可进入账号详情、认证详情、功能设置、切换账号和退出登录。账号设置和账号详情截图用于查看服务号基础信息；二维码下载截图用于下载公众号二维码。</p>
+<figure class="screenshot-card" data-screenshot="346">
+  <button class="screenshot-open" type="button" aria-label="查看截图：微信公众平台登录页">
+    <img src="screenshot/99_微信服务号/微信公众平台-登录页.png" alt="微信公众平台登录页" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/微信公众平台-登录页.png">
+  </button>
+  <figcaption>微信公众平台登录页</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="347">
+  <button class="screenshot-open" type="button" aria-label="查看截图：微信服务号登录后">
+    <img src="screenshot/99_微信服务号/微信服务号-登录后.png" alt="微信服务号登录后" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/微信服务号-登录后.png">
+  </button>
+  <figcaption>微信服务号登录后</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="348">
+  <button class="screenshot-open" type="button" aria-label="查看截图：账号设置">
+    <img src="screenshot/99_微信服务号/账号设置.png" alt="账号设置" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/账号设置.png">
+  </button>
+  <figcaption>账号设置</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="349">
+  <button class="screenshot-open" type="button" aria-label="查看截图：账号详情">
+    <img src="screenshot/99_微信服务号/账号详情.png" alt="账号详情" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/账号详情.png">
+  </button>
+  <figcaption>账号详情</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="350">
+  <button class="screenshot-open" type="button" aria-label="查看截图：二维码下载">
+    <img src="screenshot/99_微信服务号/二维码下载.png" alt="二维码下载" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/二维码下载.png">
+  </button>
+  <figcaption>二维码下载</figcaption>
+</figure>
+
+<h3 id="sec-8-2"><a class="heading-anchor" href="#sec-8-2">8.2 草稿箱与图文素材</a></h3>
+<p>草稿箱相关截图显示，内容管理下可进入草稿箱和素材库；草稿箱页面用于查看、编辑或管理图文草稿。截图中还展示了从首页或草稿箱选择已发表内容、进入历史图文素材入口、选择图文入口、编辑器选择已发表内容、转存为草稿、发表失败备份，以及删除后重新编辑等场景。具体发表审核、内容合规和群发规则属于微信公众平台规则，截图未完整展示，本手册不推断。</p>
+<figure class="screenshot-card" data-screenshot="351">
+  <button class="screenshot-open" type="button" aria-label="查看截图：草稿箱界面">
+    <img src="screenshot/99_微信服务号/草稿箱-草稿箱界面.png" alt="草稿箱界面" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/草稿箱-草稿箱界面.png">
+  </button>
+  <figcaption>草稿箱界面</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="352">
+  <button class="screenshot-open" type="button" aria-label="查看截图：草稿箱选择图文入口">
+    <img src="screenshot/99_微信服务号/草稿箱-选择图文入口.png" alt="草稿箱选择图文入口" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/草稿箱-选择图文入口.png">
+  </button>
+  <figcaption>草稿箱选择图文入口</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="353">
+  <button class="screenshot-open" type="button" aria-label="查看截图：草稿箱历史图文素材入口">
+    <img src="screenshot/99_微信服务号/草稿箱-历史图文素材入口.png" alt="草稿箱历史图文素材入口" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/草稿箱-历史图文素材入口.png">
+  </button>
+  <figcaption>草稿箱历史图文素材入口</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="354">
+  <button class="screenshot-open" type="button" aria-label="查看截图：草稿箱首页选择已发表内容">
+    <img src="screenshot/99_微信服务号/草稿箱-首页选择已发表内容.png" alt="草稿箱首页选择已发表内容" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/草稿箱-首页选择已发表内容.png">
+  </button>
+  <figcaption>草稿箱首页选择已发表内容</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="355">
+  <button class="screenshot-open" type="button" aria-label="查看截图：草稿箱选择已发表内容">
+    <img src="screenshot/99_微信服务号/草稿箱-草稿箱选择已发表内容.png" alt="草稿箱选择已发表内容" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/草稿箱-草稿箱选择已发表内容.png">
+  </button>
+  <figcaption>草稿箱选择已发表内容</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="356">
+  <button class="screenshot-open" type="button" aria-label="查看截图：草稿箱编辑器选择已发表内容">
+    <img src="screenshot/99_微信服务号/草稿箱-编辑器选择已发表内容.png" alt="草稿箱编辑器选择已发表内容" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/草稿箱-编辑器选择已发表内容.png">
+  </button>
+  <figcaption>草稿箱编辑器选择已发表内容</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="357">
+  <button class="screenshot-open" type="button" aria-label="查看截图：草稿箱转存为草稿">
+    <img src="screenshot/99_微信服务号/草稿箱-转存为草稿.png" alt="草稿箱转存为草稿" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/草稿箱-转存为草稿.png">
+  </button>
+  <figcaption>草稿箱转存为草稿</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="358">
+  <button class="screenshot-open" type="button" aria-label="查看截图：草稿箱发表失败备份">
+    <img src="screenshot/99_微信服务号/草稿箱-发表失败备份.png" alt="草稿箱发表失败备份" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/草稿箱-发表失败备份.png">
+  </button>
+  <figcaption>草稿箱发表失败备份</figcaption>
+</figure>
+
+<figure class="screenshot-card" data-screenshot="359">
+  <button class="screenshot-open" type="button" aria-label="查看截图：草稿箱删除后重新编辑">
+    <img src="screenshot/99_微信服务号/草稿箱-删除后重新编辑.png" alt="草稿箱删除后重新编辑" loading="lazy" decoding="async" data-full="screenshot/99_微信服务号/草稿箱-删除后重新编辑.png">
+  </button>
+  <figcaption>草稿箱删除后重新编辑</figcaption>
+</figure>
+
+</section>
+<section class="chapter" id="sec-9-chapter">
+<h2 id="sec-9"><a class="heading-anchor" href="#sec-9">9. 本版未覆盖范围</a></h2>
+<p>以下内容在当前截图集中没有对应页面截图，或属于技术/运维资料，不作为本版面向客户演示的用户手册内容：</p>
+<div class="table-wrap"><table><thead><tr><th>内容</th><th>说明</th></tr></thead><tbody><tr><td>封闭车场</td><td>顶部导航中有入口，但当前截图集中未包含封闭车场页面。</td></tr><tr><td>PDA 收费终端</td><td>文字资料中有终端应用目录，但当前截图集中未包含 PDA 端页面截图。</td></tr><tr><td>微信小程序车主端</td><td>文字资料中有小程序目录，但当前截图集中未包含小程序端页面截图。微信服务号截图已作为外部平台操作单独列入第 8 章。</td></tr><tr><td>设备对接</td><td>属于设备协议、接口和接入说明，适合单独作为技术对接文档。</td></tr><tr><td>运维手册</td><td>属于部署、巡检、备份、恢复和应急处理内容，适合单独作为运维文档。</td></tr><tr><td>SQL / 接口索引</td><td>属于技术查询资料，不放入面向客户演示的用户手册。</td></tr></tbody></table></div>
+</section>
+<section class="chapter" id="sec-10-chapter">
+<h2 id="sec-10"><a class="heading-anchor" href="#sec-10">10. 说明边界</a></h2>
+<p>本手册已经覆盖当前截图集中可见的后台页面和已有文字资料确认的业务规则。对于页面只出现按钮或弹窗、但未展示完整业务结果的操作，例如订单退款、订单作废、欠费追缴、支付对账异常处理、系统配置生效范围等，本手册只描述“页面存在该功能入口”和“可见字段”，不推断审批规则、财务影响、权限控制或后台任务逻辑。</p>
+</section>
+      </article>
+    </main>
+  </div>
+
+  <button class="back-top" id="backTop" type="button" aria-label="返回顶部">↑</button>
+
+  <div class="lightbox" id="imageLightbox" hidden>
+    <div class="lightbox-top">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+      <button class="lightbox-close" id="closeLightbox" type="button" aria-label="关闭">×</button>
+    </div>
+    <div class="lightbox-body">
+      <img id="lightboxImage" alt="">
+    </div>
+  </div>
+
+  <script>
+(function () {
+  var search = document.getElementById("manualSearch");
+  var results = document.getElementById("searchResults");
+  var empty = document.getElementById("emptyState");
+  var chapters = Array.prototype.slice.call(document.querySelectorAll(".chapter"));
+  var headings = Array.prototype.slice.call(document.querySelectorAll(".manual-content h2, .manual-content h3, .manual-content h4"));
+  var tocLinks = Array.prototype.slice.call(document.querySelectorAll(".toc-link"));
+  var toggleScreenshots = document.getElementById("toggleScreenshots");
+  var printManual = document.getElementById("printManual");
+  var backTop = document.getElementById("backTop");
+  var progressBar = document.getElementById("progressBar");
+  var lightbox = document.getElementById("imageLightbox");
+  var lightboxImage = document.getElementById("lightboxImage");
+  var lightboxCaption = document.getElementById("lightboxCaption");
+  var closeLightbox = document.getElementById("closeLightbox");
+
+  function normalize(value) {
+    return value.toLowerCase().replace(/\s+/g, " ").trim();
+  }
+
+  function escapeHtml(value) {
+    return value.replace(/[&<>"']/g, function (char) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char];
+    });
+  }
+
+  function headingLevel(heading) {
+    return heading.tagName.replace("H", "");
+  }
+
+  function renderResults(query) {
+    var matched = headings.filter(function (heading) {
+      var chapter = heading.closest(".chapter");
+      var haystack = normalize(heading.textContent + " " + (chapter ? chapter.textContent : ""));
+      return haystack.indexOf(query) !== -1;
+    }).slice(0, 24);
+
+    if (!query) {
+      results.classList.remove("visible");
+      results.innerHTML = "";
+      return;
+    }
+
+    if (!matched.length) {
+      results.classList.remove("visible");
+      results.innerHTML = "";
+      return;
+    }
+
+    results.innerHTML = matched.map(function (heading) {
+      var chapter = heading.closest(".chapter");
+      var chapterTitle = chapter ? chapter.querySelector("h2") : null;
+      var label = escapeHtml(heading.textContent.trim());
+      var meta = chapterTitle ? escapeHtml(chapterTitle.textContent.trim()) : "正文";
+      return '<a class="result-link" href="#' + heading.id + '"><span>' + label + '</span><span class="result-meta">H' + headingLevel(heading) + " / " + meta + "</span></a>";
+    }).join("");
+    results.classList.add("visible");
+  }
+
+  function runSearch() {
+    var query = normalize(search.value);
+    var visibleCount = 0;
+
+    chapters.forEach(function (chapter) {
+      if (!query) {
+        chapter.hidden = false;
+        visibleCount += 1;
+        return;
+      }
+
+      var isMatch = normalize(chapter.textContent).indexOf(query) !== -1;
+      chapter.hidden = !isMatch;
+      if (isMatch) visibleCount += 1;
+    });
+
+    renderResults(query);
+    empty.hidden = !query || visibleCount > 0;
+  }
+
+  search.addEventListener("input", runSearch);
+
+  document.querySelectorAll("[data-query]").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      search.value = chip.getAttribute("data-query");
+      runSearch();
+      search.focus();
+    });
+  });
+
+  toggleScreenshots.addEventListener("click", function () {
+    document.body.classList.toggle("screenshots-collapsed");
+    toggleScreenshots.textContent = document.body.classList.contains("screenshots-collapsed") ? "显示截图" : "隐藏截图";
+  });
+
+  printManual.addEventListener("click", function () {
+    window.print();
+  });
+
+  backTop.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  document.querySelectorAll(".screenshot-open img").forEach(function (img) {
+    img.addEventListener("click", function () {
+      lightboxImage.src = img.getAttribute("data-full") || img.src;
+      lightboxImage.alt = img.alt;
+      lightboxCaption.textContent = img.alt;
+      lightbox.hidden = false;
+      document.body.classList.add("is-lightbox-open");
+    });
+  });
+
+  function hideLightbox() {
+    lightbox.hidden = true;
+    lightboxImage.removeAttribute("src");
+    document.body.classList.remove("is-lightbox-open");
+  }
+
+  closeLightbox.addEventListener("click", hideLightbox);
+  lightbox.addEventListener("click", function (event) {
+    if (event.target === lightbox || event.target.classList.contains("lightbox-body")) {
+      hideLightbox();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && !lightbox.hidden) {
+      hideLightbox();
+    }
+  });
+
+  if ("IntersectionObserver" in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        tocLinks.forEach(function (link) {
+          link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
+        });
+      });
+    }, { rootMargin: "-18% 0px -72% 0px", threshold: 0.01 });
+
+    headings.forEach(function (heading) {
+      observer.observe(heading);
+    });
+  }
+
+  function updateProgress() {
+    var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    var ratio = Math.min(1, Math.max(0, window.scrollY / max));
+    progressBar.style.width = (ratio * 100).toFixed(2) + "%";
+  }
+
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  window.addEventListener("resize", updateProgress);
+  updateProgress();
+}());
+
+  </script>
+</body>
+</html>
