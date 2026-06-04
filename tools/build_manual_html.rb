@@ -267,11 +267,15 @@ def toc_html(toc)
   end.join("\n")
 end
 
-def version_date
-  return Time.now.strftime("%Y-%m-%d") unless VERSION_FILE.exist?
+def version_info
+  fallback = { name: "V1.0", date: Time.now.strftime("%Y-%m-%d") }
+  return fallback unless VERSION_FILE.exist?
 
   content = VERSION_FILE.read(encoding: "UTF-8")
-  content[/版本日期：([0-9-]+)/, 1] || Time.now.strftime("%Y-%m-%d")
+  name = content[/^## (V[0-9.]+)/, 1] || fallback[:name]
+  section = content[/^## #{Regexp.escape(name)}\n(.*?)(?=^## |\z)/m, 1] || content
+  date = section[/版本日期：([0-9-]+)/, 1] || fallback[:date]
+  { name: name, date: date }
 end
 
 CSS = <<~CSS
@@ -1163,7 +1167,7 @@ JS = <<~JS
 JS
 
 manual = render_markdown(SOURCE.read(encoding: "UTF-8"))
-version = version_date
+version = version_info
 chapter_count = manual[:toc].count { |item| item[:level] == 2 }
 topic_count = manual[:toc].count { |item| item[:level] == 3 }
 
@@ -1186,7 +1190,7 @@ html = <<~HTML
     <header class="topbar" id="top">
       <a class="brand" href="#top">
         <span class="brand-title">#{escape_html(manual[:title])}</span>
-        <span class="brand-version">V1.0 / #{escape_html(version)}</span>
+        <span class="brand-version">#{escape_html(version[:name])} / #{escape_html(version[:date])}</span>
       </a>
       <label class="search-box">
         <input id="manualSearch" type="search" autocomplete="off" placeholder="搜索功能、问题、页面名称或截图">
@@ -1209,12 +1213,12 @@ html = <<~HTML
         <section class="overview" aria-labelledby="manual-title">
           <p class="eyebrow">第一版用户手册</p>
           <h1 id="manual-title">#{escape_html(manual[:title])}</h1>
-          <p class="intro">基于已整理的 Markdown 手册和 359 张系统截图生成，用于客户演示、内部查询和后续 HTML 版本迭代。页面内容遵循“不推断未确认规则”的边界。</p>
+          <p class="intro">基于已整理的 Markdown 手册和 #{manual[:screenshot_count]} 张系统截图生成，用于客户演示、内部查询和后续 HTML 版本迭代。页面内容遵循“不推断未确认规则”的边界。</p>
           <div class="stat-grid" aria-label="手册概览">
             <div class="stat"><strong>#{chapter_count}</strong><span>一级模块</span></div>
             <div class="stat"><strong>#{topic_count}</strong><span>功能章节</span></div>
             <div class="stat"><strong>#{manual[:screenshot_count]}</strong><span>系统截图</span></div>
-            <div class="stat"><strong>V1.0</strong><span>当前版本</span></div>
+            <div class="stat"><strong>#{escape_html(version[:name])}</strong><span>当前版本</span></div>
           </div>
           <div class="chip-row" aria-label="常用查询">
             <button class="chip" type="button" data-query="退款">退款</button>
